@@ -1,4 +1,4 @@
-import WhiteLogo from '../assets/website-logo-pixel.png';
+import WhiteLogo from '../assets/website-logo-second.png';
 import { Link } from 'react-router-dom';
 
 export default function Header() {
@@ -10,6 +10,7 @@ export default function Header() {
           <Link to="/" className="nav-link">HOME</Link>
           <Link to="/skills" className="nav-link">SKILLS</Link>
           <Link to="/projects" className="nav-link">WORKSHOP⚙︎</Link>
+          <Link to="#" className="nav-link">LIBRARY✒</Link>
         </nav>
       </div>
     </header>

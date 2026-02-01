@@ -1,5 +1,5 @@
 import { Player } from '@lottiefiles/react-lottie-player';
-import coolAnim from '../assets/lottie-animations/lottie-animation-eighth.json';
+import coolAnim from '../assets/lottie-animations/lottie-animation-fourth.json';
 
 export default function LottieAnimation() {
   return (
@@ -8,7 +8,7 @@ export default function LottieAnimation() {
         autoplay
         loop
         src={coolAnim}
-        style={{ height: '150px', width: '150px' }}
+        style={{ height: '500px', width: '500px' }}
       />
     </div>
   );
