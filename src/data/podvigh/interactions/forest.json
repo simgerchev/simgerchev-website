@@ -1,0 +1,299 @@
+[
+  {
+    "type": "special",
+    "char": "¤",
+    "name": "Fountain",
+    "color": "#be73ff",
+    "description": "A clear spring bubbling from the stone.",
+    "effect": "health+2",
+    "message": "You drink from the fountain. Health +2.",
+    "allowedZones": ["Forest"],
+    "choices": [
+      {
+        "label": "Drink deeply",
+        "effect": "health+2",
+        "message": "The water refreshes you. Health +2."
+      },
+      {
+        "label": "Wash your face",
+        "effect": "health+1",
+        "message": "You feel a little better. Health +1."
+      },
+      {
+        "label": "Ignore the fountain",
+        "effect": "",
+        "message": "You pass by the fountain."
+      }
+    ]
+  },
+  {
+    "type": "npc",
+    "char": "m",
+    "name": "Wandering Monk",
+    "color": "#FFDAB9",
+    "description": "A gentle monk who offers blessings.",
+    "dialogue": [
+      "The path is long, but faith is longer.",
+      "Rest when you are weary, pilgrim."
+    ],
+    "effect": "faith+1",
+    "allowedZones": ["Forest"],
+    "choices": [
+      {
+        "label": "Ask for a blessing",
+        "effect": "faith+2",
+        "message": "The monk blesses you. Faith +2."
+      },
+      {
+        "label": "Share your troubles",
+        "effect": "health+1",
+        "message": "You feel lighter. Health +1."
+      },
+      {
+        "label": "Thank and leave",
+        "effect": "",
+        "message": "You nod and continue on your way."
+      }
+    ]
+  },
+  {
+    "type": "special",
+    "char": "&",
+    "name": "Ancient Oak",
+    "color": "#228B22",
+    "description": "A massive oak tree, its branches thick with age.",
+    "effect": "faith+1",
+    "message": "You rest beneath the Ancient Oak. Faith +1.",
+    "allowedZones": ["Forest"],
+    "choices": [
+      {
+        "label": "Meditate under the tree",
+        "effect": "faith+2",
+        "message": "You feel wisdom in the silence. Faith +2."
+      },
+      {
+        "label": "Collect fallen acorns",
+        "effect": "health+1",
+        "message": "You gather nourishing acorns. Health +1."
+      },
+      {
+        "label": "Move on quietly",
+        "effect": "",
+        "message": "You leave the tree undisturbed."
+      }
+    ]
+  },
+  {
+    "type": "npc",
+    "char": "O",
+    "name": "Mysterious Owl",
+    "color": "#CCCCFF",
+    "description": "A silent owl watches you from a branch.",
+    "dialogue": [
+      "Who... are you seeking?",
+      "Night brings answers to patient souls."
+    ],
+    "effect": "faith+1",
+    "allowedZones": ["Forest"],
+    "choices": [
+      {
+        "label": "Listen to its wisdom",
+        "effect": "faith+2",
+        "message": "The owl's words echo in your mind. Faith +2."
+      },
+      {
+        "label": "Offer some food",
+        "effect": "health+1",
+        "message": "The owl accepts your gift. Health +1."
+      },
+      {
+        "label": "Walk away",
+        "effect": "",
+        "message": "The owl blinks slowly as you leave."
+      }
+    ]
+  },
+  {
+    "type": "special",
+    "char": "+",
+    "name": "Wildflower Meadow",
+    "color": "#FF69B4",
+    "description": "A clearing filled with vibrant wildflowers.",
+    "effect": "health+1",
+    "message": "You breathe in the sweet scent. Health +1.",
+    "allowedZones": ["Forest"],
+    "choices": [
+      {
+        "label": "Pick a bouquet",
+        "effect": "faith+1",
+        "message": "You feel joy in simple beauty. Faith +1."
+      },
+      {
+        "label": "Lie down and rest",
+        "effect": "health+2",
+        "message": "You nap among the flowers. Health +2."
+      },
+      {
+        "label": "Continue walking",
+        "effect": "",
+        "message": "You leave the meadow behind."
+      }
+    ]
+  },
+  {
+    "type": "npc",
+    "char": "D",
+    "name": "Gentle Deer",
+    "color": "#DEB887",
+    "description": "A deer grazes quietly, unafraid of your presence.",
+    "dialogue": [
+      "The forest is peaceful today.",
+      "Tread softly, friend."
+    ],
+    "effect": "health+1",
+    "allowedZones": ["Forest"],
+    "choices": [
+      {
+        "label": "Watch quietly",
+        "effect": "faith+1",
+        "message": "You feel a sense of harmony. Faith +1."
+      },
+      {
+        "label": "Approach slowly",
+        "effect": "health+1",
+        "message": "The deer lets you come close. Health +1."
+      },
+      {
+        "label": "Scare it away",
+        "effect": "",
+        "message": "The deer flees into the trees."
+      }
+    ]
+  },
+  {
+    "type": "special",
+    "char": "!",
+    "name": "Poisonous Mushroom",
+    "color": "#8B0000",
+    "description": "A cluster of mushrooms with a strange odor.",
+    "effect": "health-2",
+    "message": "You accidentally eat a poisonous mushroom. Health -2.",
+    "allowedZones": ["Forest"],
+    "choices": [
+      {
+        "label": "Eat one (risky!)",
+        "effect": "health-2",
+        "message": "You feel sick. Health -2."
+      },
+      {
+        "label": "Examine carefully",
+        "effect": "",
+        "message": "You recognize the danger and leave them alone."
+      },
+      {
+        "label": "Ignore",
+        "effect": "",
+        "message": "You walk past the mushrooms."
+      }
+    ]
+  },
+  {
+    "type": "npc",
+    "char": "W",
+    "name": "Lost Wolf",
+    "color": "#444444",
+    "description": "A hungry wolf eyes you warily.",
+    "dialogue": [
+      "The wolf growls softly.",
+      "Its eyes are sharp and hungry."
+    ],
+    "effect": "health-1",
+    "allowedZones": ["Forest"],
+    "choices": [
+      {
+        "label": "Stand your ground",
+        "effect": "health-1",
+        "message": "The wolf snaps at you. Health -1."
+      },
+      {
+        "label": "Offer food",
+        "effect": "faith+1",
+        "message": "You toss some food. The wolf leaves. Faith +1."
+      },
+      {
+        "label": "Back away slowly",
+        "effect": "",
+        "message": "You avoid conflict and the wolf disappears."
+      }
+    ]
+  },
+  {
+    "type": "special",
+    "char": "^",
+    "name": "Thorn Bush",
+    "color": "#006400",
+    "description": "A dense bush covered in sharp thorns.",
+    "effect": "health-1",
+    "message": "You brush against the thorns. Health -1.",
+    "allowedZones": ["Forest"],
+    "choices": [
+      {
+        "label": "Push through",
+        "effect": "health-2",
+        "message": "You get scratched badly. Health -2."
+      },
+      {
+        "label": "Go around",
+        "effect": "",
+        "message": "You take a longer, safer path."
+      },
+      {
+        "label": "Inspect for berries",
+        "effect": "health+1",
+        "message": "You find edible berries! Health +1."
+      }
+    ]
+  }
+  ,
+  {
+    "type": "place",
+    "char": "≈",
+    "name": "Lake",
+    "color": "#1E90FF",
+    "description": "A shallow lake that stretches across several paces.",
+    "message": "You cool off by the lake.",
+    "allowedZones": ["Forest"],
+    "size": { "w": 5, "h": 2 }
+  }
+  ,
+  {
+    "type": "place",
+    "char": "~",
+    "name": "Pond",
+    "color": "#5DADE2",
+    "description": "A small, peaceful pond with clear water.",
+    "message": "You wash your hands in the pond.",
+    "allowedZones": ["Forest"],
+    "size": { "w": 2, "h": 1 }
+  },
+  {
+    "type": "place",
+    "char": "o",
+    "name": "Stone Circle",
+    "color": "#8B7D7B",
+    "description": "A circle of standing stones, arranged in an old ritual pattern.",
+    "message": "You feel the weight of ancient rites.",
+    "allowedZones": ["Forest"],
+    "size": { "w": 3, "h": 2 }
+  },
+  {
+    "type": "place",
+    "char": "=",
+    "name": "Grove Clearing",
+    "color": "#7FFF00",
+    "description": "A broad clearing where light pours through the canopy.",
+    "message": "You feel the warmth of the clearing.",
+    "allowedZones": ["Forest"],
+    "size": { "w": 4, "h": 2 }
+  }
+]

@@ -1,0 +1,199 @@
+[
+  {
+    "type": "special",
+    "char": "O",
+    "name": "Oasis",
+    "color": "#00CED1",
+    "description": "A small pool fringed with palms. Sweet, cool water.",
+    "effect": "health+3",
+    "message": "You drink deeply at the oasis. Health +3.",
+    "allowedZones": ["Desert"],
+    "choices": [
+      { "label": "Drink deeply", "effect": "health+3", "message": "Water floods your throat. Health +3." },
+      { "label": "Rest in the shade", "effect": "health+1", "message": "A short rest steadies you. Health +1." },
+      { "label": "Move on quickly", "effect": "", "message": "You leave the oasis behind." }
+    ]
+  },
+  {
+    "type": "special",
+    "char": "?",
+    "name": "Mirage",
+    "color": "#D3D3D3",
+    "description": "A wavering image on the horizon that might promise relief or trick the eye.",
+    "effect": "health-1",
+    "message": "You chase a mirage and waste time and strength. Health -1.",
+    "allowedZones": ["Desert"],
+    "choices": [
+      { "label": "Chase it", "effect": "health-1", "message": "It was not what you hoped. Health -1." },
+      { "label": "Observe from afar", "effect": "", "message": "You decide it is a trick and move on." },
+      { "label": "Wait patiently", "effect": "", "message": "The heat blurs and the image fades." }
+    ]
+  },
+  {
+    "type": "special",
+    "char": "^",
+    "name": "Cactus Patch",
+    "color": "#556B2F",
+    "description": "A stand of thorny cacti; some offer moisture, some sharp wounds.",
+    "effect": "health-1",
+    "message": "You prick yourself on a cactus. Health -1.",
+    "allowedZones": ["Desert"],
+    "choices": [
+      { "label": "Harvest water carefully", "effect": "health+1", "message": "You extract a little moisture. Health +1." },
+      { "label": "Push through", "effect": "health-2", "message": "You are scratched badly. Health -2." },
+      { "label": "Avoid it", "effect": "", "message": "You skirt the cactus patch." }
+    ]
+  },
+  {
+    "type": "npc",
+    "char": "N",
+    "name": "Nomad Trader",
+    "color": "#C19A6B",
+    "description": "A weathered trader carrying water skins and small goods.",
+    "dialogue": [
+      "Water and stories, traveler?",
+      "A little bartered coin keeps the road kinder."
+    ],
+    "effect": "faith+0",
+    "allowedZones": ["Desert"],
+    "choices": [
+      { "label": "Buy water", "effect": "health+2", "message": "You gain refreshment. Health +2." },
+      { "label": "Trade a story", "effect": "faith+1", "message": "You feel steadied by shared tales. Faith +1." },
+      { "label": "Ignore and walk on", "effect": "", "message": "You continue down the dune." }
+    ]
+  },
+  {
+    "type": "npc",
+    "char": "s",
+    "name": "Scorpion",
+    "color": "#444444",
+    "description": "A silent, dangerous hunter hiding under a stone.",
+    "dialogue": [
+      "The scorpion's tail twitches in the dust."
+    ],
+    "effect": "health-2",
+    "allowedZones": ["Desert"],
+    "choices": [
+      { "label": "Avoid it", "effect": "", "message": "You step away carefully." },
+      { "label": "Try to catch it", "effect": "health-2", "message": "It stings you. Health -2." },
+      { "label": "Use a stick to prod", "effect": "health-1", "message": "You disturb it and get nicked. Health -1." }
+    ]
+  },
+  {
+    "type": "special",
+    "char": "#",
+    "name": "Sandstorm",
+    "color": "#A0522D",
+    "description": "A wall of wind and grit rushes across the plain.",
+    "effect": "health-2",
+    "message": "The sandstorm batters you. Health -2.",
+    "allowedZones": ["Desert"],
+    "choices": [
+      { "label": "Shelter behind dune", "effect": "", "message": "You wait out part of the storm." },
+      { "label": "Brace and push through", "effect": "health-2", "message": "You struggle and lose strength. Health -2." },
+      { "label": "Cover your face and crawl", "effect": "health-1", "message": "You avoid deeper harm. Health -1." }
+    ]
+  },
+  {
+    "type": "special",
+    "char": "%",
+    "name": "Ruined Caravan",
+    "color": "#B8860B",
+    "description": "Worn wagons half-buried in sand; there might be salvageable goods.",
+    "effect": "health+0",
+    "message": "You search the wreckage for useful items.",
+    "allowedZones": ["Desert"],
+    "choices": [
+      { "label": "Scavenge carefully", "effect": "health+1", "message": "You find preserved rations. Health +1." },
+      { "label": "Force open a chest", "effect": "health-1", "message": "You cut yourself on rusty metal. Health -1." },
+      { "label": "Leave it alone", "effect": "", "message": "You step away from the wreck." }
+    ]
+  },
+  {
+    "type": "npc",
+    "char": "W",
+    "name": "Desert Wyrm",
+    "color": "#8B4513",
+    "description": "A burrowing predator that senses vibrations in the sand.",
+    "dialogue": [
+      "Something moves beneath the ground..."
+    ],
+    "effect": "health-3",
+    "allowedZones": ["Desert"],
+    "choices": [
+      { "label": "Run", "effect": "health-1", "message": "You escape but are grazed. Health -1." },
+      { "label": "Fight", "effect": "health-3", "message": "You struggle with the beast. Health -3." },
+      { "label": "Hide still", "effect": "", "message": "You remain motionless until it passes." }
+    ]
+  },
+  {
+  "type": "place",
+  "char": "O",
+  "name": "Oasis Grove",
+  "color": "#00CED1",
+  "description": "A sheltered pool ringed by a few palms and shade.",
+  "message": "You rest in the cool shade of the oasis.",
+  "allowedZones": ["Desert"],
+  "size": { "w": 3, "h": 3 }
+  },
+  {
+    "type": "place",
+    "char": "%",
+    "name": "Caravan Wreck",
+    "color": "#B8860B",
+    "description": "Half-buried wagons and scattered crates; some useful remnants remain.",
+    "message": "You search the wreck and find something useful or sharp.",
+    "allowedZones": ["Desert", "Ruins"],
+    "size": { "w": 2, "h": 2 }
+  },
+  {
+    "type": "place",
+    "char": "^",
+    "name": "Hidden Pit",
+    "color": "#A52A2A",
+    "description": "A shallow pit concealed by loose sand; easy to step into by accident.",
+    "message": "You nearly fall into a concealed pit.",
+    "allowedZones": ["Desert"],
+    "size": { "w": 1, "h": 1 }
+  },
+  {
+    "type": "place",
+    "char": "o",
+    "name": "Stone Ring",
+    "color": "#C2A476",
+    "description": "A small circle of weathered stones half-buried in sand.",
+    "message": "You step into an old stone ring and feel its age.",
+    "allowedZones": ["Desert"],
+    "size": { "w": 2, "h": 2 }
+  },
+  {
+    "type": "place",
+    "char": "w",
+    "name": "Buried Well",
+    "color": "#5F9EA0",
+    "description": "A collapsed well whose mouth is mostly filled with sand; cool air rises from below.",
+    "message": "You peer into the buried well and find cool damp air below.",
+    "allowedZones": ["Desert", "Ruins"],
+    "size": { "w": 1, "h": 1 }
+  },
+  {
+    "type": "place",
+    "char": "T",
+    "name": "Sand Tomb",
+    "color": "#8B4513",
+    "description": "A small stone tomb, its entrance clogged with grit and time.",
+    "message": "You uncover a sand-clogged tomb entrance.",
+    "allowedZones": ["Desert", "Ruins"],
+    "size": { "w": 2, "h": 2 }
+  },
+  {
+    "type": "place",
+    "char": "*",
+    "name": "Dune Shrine",
+    "color": "#FFD700",
+    "description": "A crudely carved shrine half-buried in sand, its symbols eroded.",
+    "message": "You stand before the dune shrine and feel a faint hush.",
+    "allowedZones": ["Desert"],
+    "size": { "w": 2, "h": 1 }
+  }
+]

@@ -1,0 +1,287 @@
+[
+  {
+    "type": "special",
+    "char": "*",
+    "name": "Sanctified Icon",
+    "color": "#FFD700",
+    "description": "A golden icon depicting a saint.",
+    "effect": "faith+1",
+    "message": "You discover a Sanctified Icon. Faith +1.",
+    "allowedZones": ["Ruins"],
+    "choices": [
+      {
+        "label": "Pray before the icon",
+        "effect": "faith+2",
+        "message": "You pray deeply. Faith +2."
+      },
+      {
+        "label": "Contemplate in silence",
+        "effect": "faith+1",
+        "message": "You feel a quiet peace. Faith +1."
+      },
+      {
+        "label": "Ignore and move on",
+        "effect": "",
+        "message": "You walk past, unmoved."
+      }
+    ]
+  },
+  {
+    "type": "special",
+    "char": "†",
+    "name": "Altar",
+    "color": "#00FFFF",
+    "description": "A simple stone altar.",
+    "effect": "faith+1",
+    "message": "You kneel at the Altar. Faith +1. Peace fills your heart.",
+    "allowedZones": ["Ruins"],
+    "choices": [
+      {
+        "label": "Kneel and pray",
+        "effect": "faith+2",
+        "message": "You kneel and pray. Faith +2."
+      },
+      {
+        "label": "Leave an offering",
+        "effect": "faith+1",
+        "message": "You leave a token. Faith +1."
+      },
+      {
+        "label": "Walk away",
+        "effect": "",
+        "message": "You leave the altar untouched."
+      }
+    ]
+  },
+  {
+    "type": "npc",
+    "char": "S",
+    "name": "Wandering Spirit",
+    "color": "#B0C4DE",
+    "description": "A restless spirit lingers among the ruins.",
+    "dialogue": [
+      "The past is never truly gone...",
+      "Do you seek forgiveness, or do you bring regrets?"
+    ],
+    "effect": "faith+1",
+    "allowedZones": ["Ruins"],
+    "choices": [
+      {
+        "label": "Listen to its tale",
+        "effect": "faith+1",
+        "message": "You listen quietly. Faith +1."
+      },
+      {
+        "label": "Offer a prayer",
+        "effect": "faith+2",
+        "message": "You pray for the spirit. Faith +2."
+      },
+      {
+        "label": "Flee",
+        "effect": "",
+        "message": "You hurry away, unsettled."
+      }
+    ]
+  },
+  {
+    "type": "npc",
+    "char": "M",
+    "name": "Hermit Mason",
+    "color": "#A0522D",
+    "description": "An old mason repairs the broken stones.",
+    "dialogue": [
+      "Every stone tells a story.",
+      "Even ruins can be rebuilt, given time."
+    ],
+    "effect": "health+1",
+    "allowedZones": ["Ruins"],
+    "choices": [
+      {
+        "label": "Help with repairs",
+        "effect": "health+2",
+        "message": "You help the mason. Health +2."
+      },
+      {
+        "label": "Ask for wisdom",
+        "effect": "faith+1",
+        "message": "The mason shares a parable. Faith +1."
+      },
+      {
+        "label": "Rest nearby",
+        "effect": "health+1",
+        "message": "You rest and recover. Health +1."
+      }
+    ]
+  },
+  {
+    "type": "special",
+    "char": "#",
+    "name": "Ancient Hourglass",
+    "color": "#C0C0C0",
+    "description": "A cracked hourglass filled with silver sand.",
+    "effect": "faith+1",
+    "message": "You ponder the passage of time. Faith +1.",
+    "allowedZones": ["Ruins"],
+    "choices": [
+      {
+        "label": "Turn the hourglass",
+        "effect": "faith+2",
+        "message": "You feel a sense of renewal. Faith +2."
+      },
+      {
+        "label": "Meditate on impermanence",
+        "effect": "health+1",
+        "message": "You accept change. Health +1."
+      },
+      {
+        "label": "Leave it untouched",
+        "effect": "",
+        "message": "You leave the hourglass as it is."
+      }
+    ]
+  },
+  {
+    "type": "special",
+    "char": "!",
+    "name": "Collapsed Ceiling",
+    "color": "#8B0000",
+    "description": "A pile of rubble from a recent collapse.",
+    "effect": "health-2",
+    "message": "You are struck by falling debris. Health -2.",
+    "allowedZones": ["Ruins"],
+    "choices": [
+      {
+        "label": "Try to clear the rubble",
+        "effect": "health-1",
+        "message": "You strain yourself and get scratched. Health -1."
+      },
+      {
+        "label": "Search for valuables",
+        "effect": "faith+1",
+        "message": "You find a small relic. Faith +1."
+      },
+      {
+        "label": "Avoid the area",
+        "effect": "",
+        "message": "You carefully avoid the rubble."
+      }
+    ]
+  },
+  {
+    "type": "npc",
+    "char": "T",
+    "name": "Treacherous Thief",
+    "color": "#555555",
+    "description": "A thief lurks in the shadows, eyeing your belongings.",
+    "dialogue": [
+      "Not all who wander here are lost... some are just looking for loot.",
+      "Careful, these ruins are full of surprises."
+    ],
+    "effect": "health-1",
+    "allowedZones": ["Ruins"],
+    "choices": [
+      {
+        "label": "Confront the thief",
+        "effect": "health-2",
+        "message": "You get into a scuffle. Health -2."
+      },
+      {
+        "label": "Offer a trinket",
+        "effect": "faith+1",
+        "message": "The thief spares you and leaves. Faith +1."
+      },
+      {
+        "label": "Sneak away",
+        "effect": "",
+        "message": "You slip away unnoticed."
+      }
+    ]
+  },
+  {
+    "type": "special",
+    "char": "^",
+    "name": "Hidden Trap",
+    "color": "#A52A2A",
+    "description": "A nearly invisible snare set among the stones.",
+    "effect": "health-1",
+    "message": "You step into a trap! Health -1.",
+    "allowedZones": ["Ruins"],
+    "choices": [
+      {
+        "label": "Free yourself quickly",
+        "effect": "health-1",
+        "message": "You escape but get hurt. Health -1."
+      },
+      {
+        "label": "Call for help",
+        "effect": "faith+1",
+        "message": "A spirit aids you. Faith +1."
+      },
+      {
+        "label": "Carefully untangle",
+        "effect": "",
+        "message": "You free yourself without further harm."
+      }
+    ]
+  }
+  ,
+  {
+    "type": "place",
+    "char": "▓",
+    "name": "Flooded Courtyard",
+    "color": "#2F4F4F",
+    "description": "A courtyard partially submerged; waterlogged stones form pools.",
+    "effect": "stamina-1",
+    "message": "The wet stones sap your energy. Stamina -1.",
+    "allowedZones": ["Ruins"],
+    "size": { "w": 4, "h": 2 },
+    "choices": [
+      {
+        "label": "Wade carefully",
+        "effect": "stamina-1",
+        "message": "You pick your steps carefully; it tires you. Stamina -1."
+      },
+      {
+        "label": "Search the edges",
+        "effect": "treasure+1",
+        "message": "You find something glinting at the edge."
+      }
+    ]
+  }
+  ,
+  {
+    "type": "place",
+    "char": "≋",
+    "name": "Sunken Library",
+    "color": "#4B0082",
+    "description": "Shelves collapsed into shallow pools; water laps at faded pages.",
+    "message": "You recover a damp but legible page.",
+    "allowedZones": ["Ruins"],
+    "size": { "w": 3, "h": 3 }
+  },
+  {
+    "type": "place",
+    "char": "~",
+    "name": "Mossy Plaza",
+    "color": "#556B2F",
+    "description": "A broad plaza where moss fills the gaps between paving stones.",
+    "message": "The soft moss cushions your steps.",
+    "allowedZones": ["Ruins"],
+    "size": { "w": 4, "h": 2 }
+  },
+  {
+    "type": "place",
+    "char": "o",
+    "name": "Submerged Well",
+    "color": "#1E90FF",
+    "description": "A well overflowing, its steps submerged and slick.",
+    "effect": "stamina-1",
+    "message": "The cold damp drains your energy. Stamina -1.",
+    "allowedZones": ["Ruins"],
+    "size": { "w": 2, "h": 2 },
+    "choices": [
+      { "label": "Peer into the well", "effect": "", "message": "The water ripples but reveals nothing." },
+      { "label": "Lower a rope", "effect": "treasure+1", "message": "You fish something metallic from the depths." }
+    ]
+  }
+]

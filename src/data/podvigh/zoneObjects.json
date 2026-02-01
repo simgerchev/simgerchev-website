@@ -1,0 +1,41 @@
+[
+  {
+    "name": "Forest",
+    "tiles": [".", ",", "`"],
+    "color": "#228B22",
+    "reflections": [
+      "The trees seem to breathe with you.",
+      "The forest hums in green silence.",
+      "A distant bird's call settles like a question.",
+      "Sunlight filters in narrow, holy shafts.",
+      "A path of soft moss invites your footsteps."
+    ]
+  },
+  {
+    "name": "Ruins",
+    "tiles": ["/", ".", "|"],
+    "color": "#A9A9A9",
+    "reflections": [
+      "Once this place sang hymns.",
+      "Only the wind prays here now.",
+      "Stone remembers a thousand quiet footsteps.",
+      "Columns lean as if listening to memory.",
+      "A faint echo replies when you whisper." 
+    ]
+  },
+  {
+    "name": "Desert",
+    "tiles": ["-", ":", "'"],
+    "color": "#E6C28B",
+    "description": "A sea of ochre sand broken by lonely dunes, half-sunken ruins and the occasional stubborn shrub. Heat shimmers; paths are guesses and water is a rumor.",
+    "ambience": "The hot wind carries grit, and distant hollows hold the hush of mirage.",
+    "reflections": [
+      "The sun seems to weigh on each step.",
+      "A ripple on the horizon may be water or wishful thinking.",
+      "Sand hides tracks as soon as they are made.",
+      "Silence here bends toward the sound of your own breath.",
+      "The landscape insists you are a visitor, not a homecoming."
+    ]
+  }
+  
+]

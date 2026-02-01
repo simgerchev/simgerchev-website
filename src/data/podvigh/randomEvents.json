@@ -1,0 +1,47 @@
+[
+  {
+    "msg": "A sudden peace falls over you. Faith +1.",
+    "effect": "faith+1",
+    "allowedZones": ["Forest"]
+  },
+  {
+    "msg": "A cold wind chills you. Health -1.",
+    "effect": "health-1",
+    "allowedZones": ["Ruins"]
+  },
+  {
+    "msg": "You hear birdsong. Faith +1.",
+    "effect": "faith+1",
+    "allowedZones": ["Forest"]
+  },
+  {
+    "msg": "A stone crumbles underfoot. Health -1.",
+    "effect": "health-1",
+    "allowedZones": ["Ruins"]
+  },
+  {
+    "msg": "A branch snaps behind you. You feel uneasy.",
+    "effect": "faith-1",
+    "allowedZones": ["Forest"]
+  },
+  {
+    "msg": "You find a patch of wild berries. Health +1.",
+    "effect": "health+1",
+    "allowedZones": ["Forest"]
+  },
+  {
+    "msg": "A shadow passes over the ruins. Faith -1.",
+    "effect": "faith-1",
+    "allowedZones": ["Ruins"]
+  },
+  {
+    "msg": "You trip on a hidden root. Health -1.",
+    "effect": "health-1",
+    "allowedZones": ["Forest"]
+  },
+  {
+    "msg": "A distant bell tolls. Faith +1.",
+    "effect": "faith+1",
+    "allowedZones": ["Ruins"]
+  }
+]
