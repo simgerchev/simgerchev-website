@@ -32,7 +32,10 @@ export const BlogList = () => {
 
   return (
     <div className="blog-container">
-      <h1 className="blog-title">Blog</h1>
+      <div className="blog-header">
+        <h1 className="blog-title">Blog</h1>
+        <Link to="/admin" className="btn blog-login-btn">Admin Login</Link>
+      </div>
       {posts.length === 0 ? (
         <p className="no-posts">No blog posts yet. Check back soon!</p>
       ) : (

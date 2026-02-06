@@ -157,14 +157,14 @@ const AdminPanel = ({ user, onLogout }) => {
         <h1>Blog Admin Panel</h1>
         <div className="admin-user-info">
           <span>{user.email}</span>
-          <button onClick={handleLogout}>Logout</button>
+          <button className="btn admin-logout-btn" onClick={handleLogout}>Logout</button>
         </div>
       </header>
 
       <div className="admin-content">
         <div className="admin-actions">
           <button 
-            className="btn-primary"
+            className="btn admin-create-btn"
             onClick={() => setShowEditor(!showEditor)}
           >
             {showEditor ? 'Cancel' : 'Create New Post'}

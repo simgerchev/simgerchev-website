@@ -1,6 +1,7 @@
 .admin-panel {
   min-height: 100vh;
-  background: #f5f5f5;
+  background: var(--bg);
+  color: var(--text);
 }
 
 .admin-panel.loading {
@@ -8,13 +9,12 @@
   justify-content: center;
   align-items: center;
   font-size: 24px;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .admin-header {
-  background: white;
+  background: var(--bg-header);
   padding: 20px 40px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -22,7 +22,9 @@
 
 .admin-header h1 {
   margin: 0;
-  color: #333;
+  color: var(--accent);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 
 .admin-user-info {
@@ -32,21 +34,26 @@
 }
 
 .admin-user-info span {
-  color: #666;
+  color: var(--text-secondary);
 }
 
-.admin-user-info button {
-  padding: 8px 16px;
-  background: #dc3545;
-  color: white;
+.admin-panel .btn {
   border: none;
-  border-radius: 4px;
+  border-radius: 0;
   cursor: pointer;
-  transition: opacity 0.3s;
 }
 
-.admin-user-info button:hover {
-  opacity: 0.9;
+.admin-panel .btn:hover {
+  background: var(--accent);
+  color: var(--text);
+}
+
+.admin-logout-btn,
+.admin-create-btn {
+  margin-top: 0;
+  padding: 10px 20px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .admin-content {
@@ -59,26 +66,10 @@
   margin-bottom: 30px;
 }
 
-.btn-primary {
-  padding: 12px 24px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-}
-
 .btn-secondary {
   padding: 12px 24px;
-  background: #6c757d;
-  color: white;
+  background: #2b2b2f;
+  color: var(--text);
   border: none;
   border-radius: 6px;
   font-size: 16px;
@@ -87,16 +78,16 @@
 }
 
 .post-editor {
-  background: white;
+  background: var(--card-bg);
   padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 0;
+  border: none;
   margin-bottom: 40px;
 }
 
 .post-editor h2 {
   margin-top: 0;
-  color: #333;
+  color: var(--text);
 }
 
 .form-group {
@@ -106,7 +97,7 @@
 .form-group label {
   display: block;
   margin-bottom: 8px;
-  color: #555;
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
@@ -114,11 +105,13 @@
 .form-group textarea {
   width: 100%;
   padding: 12px;
-  border: 2px solid #ddd;
-  border-radius: 6px;
+  border: none;
+  border-radius: 0;
   font-size: 16px;
   font-family: inherit;
   box-sizing: border-box;
+  background: #0b0b0c;
+  color: var(--text);
 }
 
 .form-group textarea {
@@ -128,7 +121,7 @@
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: var(--accent);
 }
 
 .form-group.checkbox label {
@@ -150,20 +143,20 @@
 }
 
 .posts-list {
-  background: white;
+  background: var(--card-bg);
   padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 0;
+  border: none;
 }
 
 .posts-list h2 {
   margin-top: 0;
-  color: #333;
+  color: var(--text);
 }
 
 .no-posts {
   text-align: center;
-  color: #999;
+  color: var(--text-secondary);
   padding: 40px;
   font-size: 18px;
 }
@@ -176,14 +169,10 @@
 }
 
 .post-card {
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
+  border: none;
+  border-radius: 0;
   padding: 20px;
-  transition: box-shadow 0.3s;
-}
-
-.post-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.35);
 }
 
 .post-status {
@@ -199,23 +188,23 @@
 }
 
 .badge.published {
-  background: #d4edda;
-  color: #155724;
+  background: rgba(0, 255, 136, 0.15);
+  color: var(--terminal-success);
 }
 
 .badge.draft {
-  background: #fff3cd;
-  color: #856404;
+  background: rgba(255, 193, 7, 0.15);
+  color: #f5c542;
 }
 
 .post-card h3 {
   margin: 10px 0;
-  color: #333;
+  color: var(--text);
   font-size: 20px;
 }
 
 .post-excerpt {
-  color: #666;
+  color: var(--text-secondary);
   margin: 10px 0;
   font-size: 14px;
   line-height: 1.5;
@@ -229,7 +218,7 @@
 }
 
 .post-date {
-  color: #999;
+  color: var(--text-secondary);
   font-size: 13px;
 }
 
@@ -240,10 +229,10 @@
 }
 
 .tag {
-  background: #e9ecef;
-  color: #495057;
+  background: rgba(26, 143, 255, 0.15);
+  color: var(--text);
   padding: 4px 10px;
-  border-radius: 4px;
+  border-radius: 0;
   font-size: 12px;
 }
 
@@ -258,24 +247,19 @@
   flex: 1;
   padding: 8px 16px;
   border: none;
-  border-radius: 4px;
+  border-radius: 0;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  transition: opacity 0.3s;
 }
 
 .btn-edit {
-  background: #007bff;
+  background: var(--accent);
   color: white;
 }
 
 .btn-delete {
-  background: #dc3545;
+  background: #a3121f;
   color: white;
 }
 
-.btn-edit:hover,
-.btn-delete:hover {
-  opacity: 0.9;
-}
