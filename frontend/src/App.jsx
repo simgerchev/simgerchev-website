@@ -8,6 +8,8 @@ import Footer from './components/Footer';
 import BrowserTerminal from './components/BrowserTerminal';
 import CyberMonk from './components/CyberMonk';
 import Podvigh from './components/Podvigh';
+import { BlogList, BlogPost } from './components/Blog';
+import Admin from './components/Admin';
 
 function App() {
   return (
@@ -29,6 +31,9 @@ function App() {
             <Route path="/browser-terminal" element={<BrowserTerminal />} />
             <Route path="/cyber-monk" element={<CyberMonk />} />
             <Route path="/podvigh" element={<Podvigh />} />
+            <Route path="/blog" element={<BlogList />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/admin" element={<Admin />} />
           </Routes>
         </main>
         <Footer />

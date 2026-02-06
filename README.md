@@ -30,13 +30,21 @@ To get started, clone the repository and install dependencies:
 ```bash
 git clone https://gitlab.com/simgerchev/cv-website.git
 cd cv-website
+cd frontend
 npm install
 ```
 
 To run the development server:
 
 ```bash
+cd frontend
 npm run dev
+```
+
+To run the full stack with Docker:
+
+```bash
+docker-compose up --build
 ```
 
 ---

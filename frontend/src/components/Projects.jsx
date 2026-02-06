@@ -8,38 +8,6 @@ import projectSeventh from '../assets/project-pictures/project-seventh.png';
 import { Link } from 'react-router-dom';
 
 const projects = [
-    {
-    img: projectSixth,
-    title: "Podvigh(🛠)",
-    desc: "Podvigh is a web-based ASCII Rogue Lite game about a monk wandering through different zones, praying to grow his faith, and ultimately finding the Sanctuary.",
-    tech: ["JavaScript", "React", "CSS"],
-    link: "/podvigh",
-    showButton: true
-  },
-  {
-    img: projectFourth,
-    title: "Browser Terminal",
-    desc: "A web-based terminal emulator that runs in the browser, allowing users to interact with a simulated command line interface. Similar to the Overthewire Wargames.",
-    tech: ["JavaScript", "React", "CSS"],
-    link: "/browser-terminal",
-    showButton: true
-  },
-  {
-    img: projectFifth,
-    title: "CyberMonk(🛠)",
-    desc: "CyberMonk is a web-based terminal emulator game about a monk exploring a fantasy world through command-line commands. Similar to Terminus.",
-    tech: ["JavaScript", "React", "CSS"],
-    link: "/cyber-monk",
-    showButton: true
-  },
-  {
-    img: projectFirst,
-    title: "Babel's Room(🛠)",
-    desc: "A chat application where you can temporary chat sessions with an end to end encryption.",
-    tech: ["React Vite", "Django", "Docker", "Git"],
-    link: "https://github.com/simgerchev/chat-app",
-    showButton: true
-  },
   {
     img: projectSecond,
     title: "Deserted",
