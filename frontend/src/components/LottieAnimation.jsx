@@ -1,5 +1,5 @@
 import { Player } from '@lottiefiles/react-lottie-player';
-import coolAnim from '../assets/lottie-animations/lottie-animation-fourth.json';
+import coolAnim from '../assets/lottie-animations/networking.json';
 
 export default function LottieAnimation() {
   return (

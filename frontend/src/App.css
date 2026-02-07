@@ -4,29 +4,30 @@
   ========================= */
 
 :root {
-  --accent: #33ff66;
-  --accent-dark: #00cc44;
-  --bg: #040704;
-  --bg-header: rgba(10, 26, 14, 0.7);
-  --card-bg: rgba(8, 22, 12, 0.85);
-  --text: #e7ffe7;
-  --text-secondary: #9ad39a;
-  --gray: #0e2a14;
-  --glow: rgba(51, 255, 102, 0.25);
+  --accent: #4aa3ff;
+  --accent-dark: #2d6cb8;
+  --bg: #0b1220;
+  --bg-header: rgba(10, 18, 34, 0.75);
+  --card-bg: rgba(12, 20, 38, 0.88);
+  --text: #e8f1ff;
+  --text-secondary: #b5c7e6;
+  --gray: #1a2436;
+  --glow: rgba(74, 163, 255, 0.28);
   --header-height: 90px;
-  --terminal-bg: #020402;
-  --terminal-border: #2bff67;
-  --terminal-shadow: 0 10px 36px rgba(51, 255, 102, 0.2);
-  --terminal-text: #e7ffe7;
-  --terminal-prompt: #33ff66;
-  --terminal-prompt-glow: #00cc44;
-  --terminal-error: #ff5577;
-  --terminal-success: #7bff5d;
-  --terminal-arg: #7bff5d;
-  --terminal-path: #4dffb3;
-  --terminal-comment: #3f6b45;
-  --terminal-scrollbar: #33ff66;
-  --terminal-scrollbar-bg: #020402;
+  --terminal-bg: #0a0f1c;
+  --terminal-border: #4aa3ff;
+  --terminal-shadow: 0 10px 36px rgba(74, 163, 255, 0.22);
+  --terminal-text: #e8f1ff;
+  --terminal-prompt: #4aa3ff;
+  --terminal-prompt-glow: #78baff;
+  --terminal-error: #ff6b6b;
+  --terminal-success: #6fe3ff;
+  --terminal-arg: #7cc6ff;
+  --terminal-path: #4aa3ff;
+  --terminal-comment: #6b7a97;
+  --terminal-scrollbar: #4aa3ff;
+  --terminal-scrollbar-bg: #0a0f1c;
+  --accent-warm: #ff9f43;
   --font-body: 'Share Tech Mono', 'Courier New', monospace;
   --font-display: 'VT323', 'Share Tech Mono', monospace;
   font-family: var(--font-body);
@@ -131,9 +132,7 @@ html, body, #root {
 }
 
 body {
-  background: radial-gradient(1200px 900px at 10% 10%, rgba(51, 255, 102, 0.08), transparent 60%),
-    radial-gradient(900px 700px at 90% 20%, rgba(0, 204, 68, 0.12), transparent 60%),
-    linear-gradient(180deg, #020402 0%, #040a05 35%, #020402 100%);
+  background: #060610;
   color: var(--text);
   font-family: inherit;
   margin: 0;
@@ -161,18 +160,14 @@ body::before {
       transparent 3px
     );
   mix-blend-mode: screen;
-  opacity: 0.55;
+  opacity: 0.4;
 }
 
 body::after {
-  background: repeating-linear-gradient(
-      90deg,
-      rgba(10, 32, 14, 0.25) 0,
-      rgba(10, 32, 14, 0.25) 2px,
-      transparent 2px,
-      transparent 4px
-    );
-  opacity: 0.25;
+  background: radial-gradient(1200px 800px at 15% 10%, rgba(74, 163, 255, 0.14), transparent 70%),
+    radial-gradient(900px 700px at 85% 20%, rgba(74, 163, 255, 0.1), transparent 70%),
+    radial-gradient(120% 120% at 50% 10%, rgba(0, 0, 0, 0) 0%, rgba(2, 2, 8, 0.55) 65%, rgba(2, 2, 8, 0.9) 100%);
+  opacity: 0.7;
 }
 
 .app {
@@ -217,7 +212,7 @@ nav a, .nav-link {
   letter-spacing: 2px;
   margin-left: 20px;
   text-transform: uppercase;
-  text-shadow: 0 0 8px rgba(51, 255, 102, 0.12);
+  text-shadow: 0 0 8px rgba(74, 163, 255, 0.18);
 }
 
 nav a.active, .nav-link.active,
@@ -230,8 +225,8 @@ nav a:hover, .nav-link:hover {
    Header
    ========================= */
 header {
-  background: linear-gradient(180deg, rgba(6, 18, 9, 0.95) 0%, rgba(4, 10, 6, 0.8) 100%);
-  border-bottom: 1px solid rgba(51, 255, 102, 0.25);
+  background: linear-gradient(180deg, rgba(20, 16, 36, 0.95) 0%, rgba(12, 10, 24, 0.9) 100%);
+  border-bottom: 1px solid rgba(74, 163, 255, 0.3);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
   padding: 20px 50px;
 }
@@ -246,7 +241,7 @@ header .container {
 
 .logo-img {
   display: block;
-  height: 50px;
+  height: 36px;
   margin-right: 16px;
   object-fit: contain;
   width: auto;
@@ -266,7 +261,9 @@ header .container {
    ========================= */
 .intro {
   padding: 60px 20px;
-  text-align: center;
+  text-align: left;
+  max-width: 720px;
+  margin: 0 auto;
 }
 
 .intro-title {
@@ -299,7 +296,7 @@ header .container {
 .icons {
   display: flex;
   gap: 18px;
-  justify-content: center;
+  justify-content: flex-start;
   margin-top: 18px;
 }
 
@@ -336,8 +333,8 @@ header .container {
 }
 
 .btn {
-  background: rgba(10, 32, 14, 0.75);
-  border: 1px solid rgba(51, 255, 102, 0.35);
+  background: rgba(24, 16, 44, 0.85);
+  border: 1px solid rgba(74, 163, 255, 0.35);
   color: var(--text);
   display: inline-block;
   font-family: var(--font-display);
@@ -349,7 +346,7 @@ header .container {
 }
 
 .btn:hover {
-  background: rgba(20, 52, 24, 0.9);
+  background: rgba(36, 24, 70, 0.9);
   color: #f1fff1;
 }
 
@@ -366,7 +363,7 @@ header .container {
   align-items: center;
   background: var(--card-bg);
   border-radius: 10px;
-  border: 1px solid rgba(51, 255, 102, 0.2);
+  border: 1px solid rgba(74, 163, 255, 0.25);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
   display: flex;
   flex-direction: column;
@@ -406,9 +403,9 @@ header .container {
 }
 
 .tech-badge {
-  background: rgba(10, 32, 14, 0.75);
+  background: rgba(24, 16, 44, 0.75);
   border-radius: 6px;
-  border: 1px solid rgba(51, 255, 102, 0.25);
+  border: 1px solid rgba(74, 163, 255, 0.3);
   color: #dfffe7;
   font-family: var(--font-display);
   font-size: 1rem;
@@ -422,7 +419,7 @@ header .container {
 .skills {
   background: var(--card-bg);
   border-radius: 12px;
-  border: 1px solid rgba(51, 255, 102, 0.2);
+  border: 1px solid rgba(74, 163, 255, 0.25);
   box-shadow: 0 18px 32px rgba(0, 0, 0, 0.35);
   margin: 40px auto;
   max-width: 700px;
@@ -514,7 +511,7 @@ header .container {
 }
 .traffic-dot.red { background: #ff5f56; border: 2px solid #e0443e; }
 .traffic-dot.yellow { background: #ffbd2e; border: 2px solid #dea123; }
-.traffic-dot.green { background: #27c93f; border: 2px solid #13a10e; }
+.traffic-dot.green { background: #4aa3ff; border: 2px solid #2d6cb8; }
 
 .browser-terminal-lines {
   color: var(--terminal-text) !important;
@@ -575,7 +572,7 @@ header .container {
 .terminal-output.success {
   color: var(--terminal-success) !important;
   font-weight: 600;
-  text-shadow: 0 0 2px var(--terminal-success), 0 0 6px #27c93f44;
+  text-shadow: 0 0 2px var(--terminal-success), 0 0 6px #7aa7ff44;
 }
 .terminal-output.cmd {
   color: var(--terminal-prompt) !important;
@@ -1120,7 +1117,7 @@ footer .social a {
   padding: 40px 20px;
   background: var(--card-bg);
   border-radius: 12px;
-  border: 1px solid rgba(51, 255, 102, 0.2);
+  border: 1px solid rgba(74, 163, 255, 0.25);
   box-shadow: 0 18px 32px rgba(0, 0, 0, 0.35);
 }
 
@@ -1167,9 +1164,9 @@ footer .social a {
 }
 
 .skills-tags li {
-  background: rgba(10, 32, 14, 0.75);
+  background: rgba(24, 16, 44, 0.75);
   color: #e7ffe7;
-  border: 1px solid rgba(51, 255, 102, 0.25);
+  border: 1px solid rgba(74, 163, 255, 0.25);
   border-radius: 6px;
   font-family: var(--font-display);
   font-size: 1.05rem;

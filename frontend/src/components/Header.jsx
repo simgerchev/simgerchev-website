@@ -10,8 +10,6 @@ export default function Header() {
           <Link to="/" className="nav-link">HOME</Link>
           <Link to="/skills" className="nav-link">SKILLS</Link>
           <Link to="/projects" className="nav-link">WORKSHOP⚙︎</Link>
-          <Link to="/blog" className="nav-link">BLOG</Link>
-          <Link to="#" className="nav-link">LIBRARY</Link>
         </nav>
       </div>
     </header>
