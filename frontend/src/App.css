@@ -1,33 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap');
 /* =========================
   Imports & Root Variables
   ========================= */
 
 :root {
-    --accent: #1a8fff;
-    --accent-dark: #0066cc;
-    --bg: #000000;
-    --bg-header: #1a8fff15;
-    --card-bg: #1a8fff15;
-    --text: #ffffff;
-    --text-secondary: #b3b3b3;
-    --gray: #666666;
-    --header-height: 90px;
-  --terminal-bg: #000000;
-  --terminal-border: #1a8fff;
-  --terminal-shadow: 0 8px 32px rgba(26, 143, 255, 0.3);
-  --terminal-text: #ffffff;
-  --terminal-prompt: #1a8fff;
-  --terminal-prompt-glow: #0066cc;
-  --terminal-error: #ff4444;
-  --terminal-success: #00ff88;
-  --terminal-arg: #1a8fff;
-  --terminal-path: #00ddff;
-  --terminal-comment: #666666;
-  --terminal-scrollbar: #1a8fff;
-  --terminal-scrollbar-bg: #000000;
-  font-family: 'Oswald', Arial, Helvetica, sans-serif;
-  line-height: 1.5;
+  --accent: #33ff66;
+  --accent-dark: #00cc44;
+  --bg: #040704;
+  --bg-header: rgba(10, 26, 14, 0.7);
+  --card-bg: rgba(8, 22, 12, 0.85);
+  --text: #e7ffe7;
+  --text-secondary: #9ad39a;
+  --gray: #0e2a14;
+  --glow: rgba(51, 255, 102, 0.25);
+  --header-height: 90px;
+  --terminal-bg: #020402;
+  --terminal-border: #2bff67;
+  --terminal-shadow: 0 10px 36px rgba(51, 255, 102, 0.2);
+  --terminal-text: #e7ffe7;
+  --terminal-prompt: #33ff66;
+  --terminal-prompt-glow: #00cc44;
+  --terminal-error: #ff5577;
+  --terminal-success: #7bff5d;
+  --terminal-arg: #7bff5d;
+  --terminal-path: #4dffb3;
+  --terminal-comment: #3f6b45;
+  --terminal-scrollbar: #33ff66;
+  --terminal-scrollbar-bg: #020402;
+  --font-body: 'Share Tech Mono', 'Courier New', monospace;
+  --font-display: 'VT323', 'Share Tech Mono', monospace;
+  font-family: var(--font-body);
+  line-height: 1.6;
   font-weight: 400;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -128,13 +131,48 @@ html, body, #root {
 }
 
 body {
-  background: var(--bg);
+  background: radial-gradient(1200px 900px at 10% 10%, rgba(51, 255, 102, 0.08), transparent 60%),
+    radial-gradient(900px 700px at 90% 20%, rgba(0, 204, 68, 0.12), transparent 60%),
+    linear-gradient(180deg, #020402 0%, #040a05 35%, #020402 100%);
   color: var(--text);
   font-family: inherit;
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
   overflow-x: hidden;
+  position: relative;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::before {
+  background: repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.03) 0,
+      rgba(255, 255, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  mix-blend-mode: screen;
+  opacity: 0.55;
+}
+
+body::after {
+  background: repeating-linear-gradient(
+      90deg,
+      rgba(10, 32, 14, 0.25) 0,
+      rgba(10, 32, 14, 0.25) 2px,
+      transparent 2px,
+      transparent 4px
+    );
+  opacity: 0.25;
 }
 
 .app {
@@ -142,6 +180,8 @@ body {
   flex-direction: column;
   min-height: 100vh;
   width: 100vw;
+  position: relative;
+  z-index: 1;
 }
 
 
@@ -159,7 +199,7 @@ footer {
    Links & Navigation
    ========================= */
 a, .nav-link {
-  color: #00bcd4;
+  color: var(--accent);
   text-decoration: none;
 }
 
@@ -171,10 +211,13 @@ nav {
 
 nav a, .nav-link {
   color: var(--text-secondary);
-  font-family: 'Oswald', Arial, Helvetica, sans-serif;
-  font-weight: 500;
-  letter-spacing: 1px;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 400;
+  letter-spacing: 2px;
   margin-left: 20px;
+  text-transform: uppercase;
+  text-shadow: 0 0 8px rgba(51, 255, 102, 0.12);
 }
 
 nav a.active, .nav-link.active,
@@ -187,7 +230,9 @@ nav a:hover, .nav-link:hover {
    Header
    ========================= */
 header {
-  background: var(--bg-header);
+  background: linear-gradient(180deg, rgba(6, 18, 9, 0.95) 0%, rgba(4, 10, 6, 0.8) 100%);
+  border-bottom: 1px solid rgba(51, 255, 102, 0.25);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
   padding: 20px 50px;
 }
 
@@ -209,8 +254,11 @@ header .container {
 
 .logo {
   color: var(--accent);
-  font-size: 24px;
-  font-weight: bold;
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: 3px;
+  text-shadow: 0 0 12px var(--glow);
 }
 
 /* =========================
@@ -223,17 +271,19 @@ header .container {
 
 .intro-title {
   color: var(--accent);
-  font-family: 'Oswald', Arial, Helvetica, sans-serif;
-  font-size: 2.5rem;
-  font-weight: 700;
-  letter-spacing: 2px;
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 400;
+  letter-spacing: 3px;
   margin-bottom: 24px;
   text-transform: uppercase;
+  text-shadow: 0 0 16px var(--glow);
+  animation: crt-flicker 6s infinite;
 }
 
 .intro-lead {
   color: var(--text-secondary);
-  font-family: 'Oswald', Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
   line-height: 1.7;
   margin: 0 auto 32px auto;
   max-width: 600px;
@@ -286,19 +336,23 @@ header .container {
 }
 
 .btn {
-  background: var(--accent);
+  background: linear-gradient(180deg, rgba(51, 255, 102, 0.25) 0%, rgba(0, 204, 68, 0.1) 100%);
+  border: 1px solid rgba(51, 255, 102, 0.5);
   color: var(--text);
   display: inline-block;
-  font-family: 'Oswald', Arial, Helvetica, sans-serif;
-  font-weight: 700;
-  letter-spacing: 1px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 2px;
   margin-top: 10px;
   padding: 10px 20px;
+  text-transform: uppercase;
+  box-shadow: 0 0 18px rgba(51, 255, 102, 0.2);
 }
 
 .btn:hover {
-  background: var(--accent-dark);
-  color: #fff;
+  background: rgba(51, 255, 102, 0.25);
+  color: #f1fff1;
+  box-shadow: 0 0 22px rgba(51, 255, 102, 0.35);
 }
 
 .project-grid {
@@ -313,8 +367,9 @@ header .container {
 .project-card {
   align-items: center;
   background: var(--card-bg);
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  border-radius: 10px;
+  border: 1px solid rgba(51, 255, 102, 0.2);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
   display: flex;
   flex-direction: column;
   padding: 24px 20px;
@@ -332,8 +387,8 @@ header .container {
 
 .project-title {
   color: var(--accent);
-  font-family: 'Oswald', Arial, Helvetica, sans-serif;
-  font-size: 1.2rem;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
   margin: 10px 0 6px 0;
 }
 
@@ -353,12 +408,13 @@ header .container {
 }
 
 .tech-badge {
-  background: var(--gray);
+  background: rgba(10, 32, 14, 0.75);
   border-radius: 6px;
-  color: #fff;
-  font-family: 'Oswald', Arial, Helvetica, sans-serif;
-  font-size: 0.95rem;
-  letter-spacing: 0.5px;
+  border: 1px solid rgba(51, 255, 102, 0.25);
+  color: #dfffe7;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 1px;
   padding: 4px 12px;
 }
 
@@ -366,9 +422,10 @@ header .container {
    Skills Section
    ========================= */
 .skills {
-  background: var(--bg-header);
-  border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid rgba(51, 255, 102, 0.2);
+  box-shadow: 0 18px 32px rgba(0, 0, 0, 0.35);
   margin: 40px auto;
   max-width: 700px;
   padding: 40px 20px;
@@ -376,11 +433,12 @@ header .container {
 
 .skills-title {
   color: var(--accent);
-  font-family: 'Oswald', Arial, Helvetica, sans-serif;
-  font-size: 2rem;
-  letter-spacing: 2px;
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  letter-spacing: 4px;
   margin-bottom: 32px;
   text-align: center;
+  text-shadow: 0 0 14px var(--glow);
 }
 
 .skills-list {
@@ -1062,19 +1120,21 @@ footer .social a {
   margin: 40px auto;
   max-width: 800px;
   padding: 40px 20px;
-  background: var(--bg-header);
-  border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid rgba(51, 255, 102, 0.2);
+  box-shadow: 0 18px 32px rgba(0, 0, 0, 0.35);
 }
 
 .skills-title {
   color: var(--accent);
-  font-family: 'Oswald', Arial, Helvetica, sans-serif;
-  font-size: 2rem;
-  letter-spacing: 2px;
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  letter-spacing: 4px;
   margin-bottom: 32px;
   text-align: center;
   text-transform: uppercase;
+  text-shadow: 0 0 14px var(--glow);
 }
 
 .skills-groups {
@@ -1091,9 +1151,9 @@ footer .social a {
 
 .skills-group h3 {
   color: var(--accent-dark);
-  font-family: 'Oswald', Arial, Helvetica, sans-serif;
-  font-size: 1.1rem;
-  letter-spacing: 1px;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  letter-spacing: 2px;
   margin-bottom: 1rem;
   text-transform: uppercase;
   text-align: center;
@@ -1109,18 +1169,66 @@ footer .social a {
 }
 
 .skills-tags li {
-  background: var(--gray, #23272f);
-  color: #fff;
+  background: rgba(10, 32, 14, 0.75);
+  color: #e7ffe7;
+  border: 1px solid rgba(51, 255, 102, 0.25);
   border-radius: 6px;
-  font-family: 'Oswald', Arial, Helvetica, sans-serif;
-  font-size: 1rem;
-  letter-spacing: 0.5px;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  letter-spacing: 1px;
   padding: 4px 14px;
   font-weight: 500;
   text-transform: uppercase;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   margin-bottom: 0.3em;
   transition: background 0.2s;
+}
+
+/* Retro Hacker Overrides */
+h1, h2, h3, h4, h5, h6,
+.logo,
+.nav-link,
+.project-title,
+.skills-title,
+.btn,
+.tech-badge,
+.skills-tags li {
+  font-family: var(--font-display);
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: var(--font-body);
+}
+
+a:hover {
+  text-shadow: 0 0 12px var(--glow);
+}
+
+.project-card:hover,
+.blog-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.45);
+}
+
+@keyframes crt-flicker {
+  0%, 100% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 0.9;
+  }
+  48% {
+    opacity: 0.75;
+  }
+  50% {
+    opacity: 0.95;
+  }
+  60% {
+    opacity: 0.85;
+  }
 }
 
 .skills-tags li:hover {
