@@ -41,7 +41,7 @@ cd frontend
 npm run dev
 ```
 
-To run the full stack with Docker:
+To run the site with Docker:
 
 ```bash
 docker-compose up --build
