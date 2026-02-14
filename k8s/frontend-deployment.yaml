@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: simgerchev-website-20260208-190638
-          imagePullPolicy: IfNotPresent
+          image: localhost:5000/simgerchev-website:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 5173
           env:

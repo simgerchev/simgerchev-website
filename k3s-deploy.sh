@@ -1,17 +1,32 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Defaults; can be overridden by flags below.
+# Defaults
+APP_NAME="${1:-simgerchev-website}"
 BUILD_IMAGE=true
 TAG=""
+REGISTRY="localhost:5000"
 
 usage() {
-	echo "Usage: $0 [--no-build] [--tag <tag>]"
-	echo "  --no-build   Skip docker build/import; requires --tag"
+	echo "Usage: $0 [APP_NAME] [--no-build] [--tag <tag>] [--registry <registry>]"
+	echo ""
+	echo "  APP_NAME     Application name (default: simgerchev-website)"
+	echo "  --no-build   Skip docker build/push; requires --tag"
 	echo "  --tag        Use an existing image tag"
+	echo "  --registry   Registry URL (default: localhost:5000)"
+	echo ""
+	echo "Examples:"
+	echo "  $0                           # Deploy simgerchev-website with new build"
+	echo "  $0 another-app               # Deploy another-app with new build"
+	echo "  $0 my-app --tag v1.2.3       # Deploy my-app using existing tag"
 }
 
-# Simple flag parsing for optional build/tag behavior.
+# Shift APP_NAME if it doesn't start with --
+if [[ $# -gt 0 && ! "$1" =~ ^-- ]]; then
+	shift
+fi
+
+# Parse flags
 while [[ $# -gt 0 ]]; do
 	case "$1" in
 		--no-build)
@@ -27,6 +42,15 @@ while [[ $# -gt 0 ]]; do
 			TAG="$2"
 			shift 2
 			;;
+		--registry)
+			if [[ $# -lt 2 || -z "${2:-}" ]]; then
+				echo "Error: --registry requires a value" >&2
+				usage
+				exit 1
+			fi
+			REGISTRY="$2"
+			shift 2
+			;;
 		-h|--help)
 			usage
 			exit 0
@@ -39,7 +63,27 @@ while [[ $# -gt 0 ]]; do
 	esac
 done
 
-# If no tag provided, generate one when building; otherwise require a tag.
+# Validate app directory exists
+if [[ "$APP_NAME" == "simgerchev-website" ]]; then
+	APP_DIR="frontend"
+	K8S_DIR="k8s"
+	NAMESPACE="simgerchev-website"
+	DEPLOYMENT="frontend"
+	CONTAINER="frontend"
+else
+	APP_DIR="$APP_NAME"
+	K8S_DIR="k8s/$APP_NAME"
+	NAMESPACE="$APP_NAME"
+	DEPLOYMENT="$APP_NAME"
+	CONTAINER="$APP_NAME"
+fi
+
+if [[ ! -d "$APP_DIR" ]]; then
+	echo "Error: Application directory '$APP_DIR' not found" >&2
+	exit 1
+fi
+
+# Generate tag if not provided
 if [[ -z "$TAG" ]]; then
 	if [[ "$BUILD_IMAGE" == true ]]; then
 		TAG=$(date +%Y%m%d-%H%M%S)
@@ -49,25 +93,32 @@ if [[ -z "$TAG" ]]; then
 	fi
 fi
 
+IMAGE="$REGISTRY/$APP_NAME:$TAG"
+
+echo "==> Deploying $APP_NAME"
+echo "    Image: $IMAGE"
+echo "    Namespace: $NAMESPACE"
+
 if [[ "$BUILD_IMAGE" == true ]]; then
-	# Build and import the image into the local k3s container runtime.
-	docker build -t simgerchev-website:$TAG frontend
-
-	docker save -o simgerchev-website-$TAG.tar simgerchev-website:$TAG
-
-	sudo mv simgerchev-website-$TAG.tar /var/lib/rancher/k3s/agent/images/
-
-	sudo k3s ctr images import /var/lib/rancher/k3s/agent/images/simgerchev-website-$TAG.tar
+	echo "==> Building and pushing image..."
+	docker build -t "$IMAGE" "$APP_DIR"
+	docker push "$IMAGE"
 fi
 
 # Ensure namespace exists first
-kubectl apply -f k8s/namespace.yaml
+echo "==> Applying Kubernetes manifests..."
+kubectl apply -f "$K8S_DIR/namespace.yaml" 2>/dev/null || true
 
 # Apply remaining k8s resources
-kubectl apply -f k8s/
+kubectl apply -f "$K8S_DIR/"
 
-kubectl -n simgerchev-website set image deployment/frontend frontend=simgerchev-website:$TAG
+# Update deployment image
+echo "==> Updating deployment to $IMAGE..."
+kubectl -n "$NAMESPACE" set image deployment/"$DEPLOYMENT" "$CONTAINER=$IMAGE"
 
-kubectl -n simgerchev-website rollout restart deployment/frontend
+kubectl -n "$NAMESPACE" rollout restart deployment/"$DEPLOYMENT"
 
-kubectl -n simgerchev-website rollout status deployment/frontend
+echo "==> Waiting for rollout..."
+kubectl -n "$NAMESPACE" rollout status deployment/"$DEPLOYMENT"
+
+echo "✓ Deployment complete!"
