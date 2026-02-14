@@ -19,6 +19,11 @@ while [[ $# -gt 0 ]]; do
 			shift
 			;;
 		--tag)
+			if [[ $# -lt 2 || -z "${2:-}" ]]; then
+				echo "Error: --tag requires a value" >&2
+				usage
+				exit 1
+			fi
 			TAG="$2"
 			shift 2
 			;;
@@ -55,6 +60,10 @@ if [[ "$BUILD_IMAGE" == true ]]; then
 	sudo k3s ctr images import /var/lib/rancher/k3s/agent/images/simgerchev-website-$TAG.tar
 fi
 
+# Ensure namespace exists first
+kubectl apply -f k8s/namespace.yaml
+
+# Apply remaining k8s resources
 kubectl apply -f k8s/
 
 kubectl -n simgerchev-website set image deployment/frontend frontend=simgerchev-website:$TAG
