@@ -62,23 +62,28 @@
         chdir: "{{ project_root }}"
       register: namespace_apply
       failed_when: false
+      become: true
 
     - name: Apply Kubernetes manifests
       ansible.builtin.command: "kubectl apply -f {{ k8s_dir }}/"
       args:
         chdir: "{{ project_root }}"
+      become: true
 
     - name: Update deployment image
       ansible.builtin.command: "kubectl -n {{ namespace }} set image deployment/{{ deployment }} {{ container }}={{ image }}"
       args:
         chdir: "{{ project_root }}"
+      become: true
 
     - name: Rollout restart
       ansible.builtin.command: "kubectl -n {{ namespace }} rollout restart deployment/{{ deployment }}"
       args:
         chdir: "{{ project_root }}"
+      become: true
 
     - name: Wait for rollout
       ansible.builtin.command: "kubectl -n {{ namespace }} rollout status deployment/{{ deployment }}"
       args:
         chdir: "{{ project_root }}"
+      become: true
