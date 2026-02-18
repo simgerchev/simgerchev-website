@@ -6,6 +6,8 @@ APP_NAME="${1:-simgerchev-website}"
 BUILD_IMAGE=true
 TAG=""
 REGISTRY="localhost:5000"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 usage() {
 	echo "Usage: $0 [APP_NAME] [--no-build] [--tag <tag>] [--registry <registry>]"
@@ -63,21 +65,7 @@ while [[ $# -gt 0 ]]; do
 	esac
 done
 
-# Validate app directory exists
-if [[ "$APP_NAME" == "simgerchev-website" ]]; then
-	APP_DIR="frontend"
-	K8S_DIR="k8s"
-	NAMESPACE="simgerchev-website"
-	DEPLOYMENT="frontend"
-	CONTAINER="frontend"
-else
-	APP_DIR="$APP_NAME"
-	K8S_DIR="k8s/$APP_NAME"
-	NAMESPACE="$APP_NAME"
-	DEPLOYMENT="$APP_NAME"
-	CONTAINER="$APP_NAME"
-fi
-
+APP_DIR="$REPO_ROOT/app/$APP_NAME"
 if [[ ! -d "$APP_DIR" ]]; then
 	echo "Error: Application directory '$APP_DIR' not found" >&2
 	exit 1
@@ -97,28 +85,9 @@ IMAGE="$REGISTRY/$APP_NAME:$TAG"
 
 echo "==> Deploying $APP_NAME"
 echo "    Image: $IMAGE"
-echo "    Namespace: $NAMESPACE"
-
-if [[ "$BUILD_IMAGE" == true ]]; then
-	echo "==> Building and pushing image..."
-	docker build -t "$IMAGE" "$APP_DIR"
-	docker push "$IMAGE"
-fi
-
-# Ensure namespace exists first
-echo "==> Applying Kubernetes manifests..."
-kubectl apply -f "$K8S_DIR/namespace.yaml" 2>/dev/null || true
-
-# Apply remaining k8s resources
-kubectl apply -f "$K8S_DIR/"
-
-# Update deployment image
-echo "==> Updating deployment to $IMAGE..."
-kubectl -n "$NAMESPACE" set image deployment/"$DEPLOYMENT" "$CONTAINER=$IMAGE"
-
-kubectl -n "$NAMESPACE" rollout restart deployment/"$DEPLOYMENT"
-
-echo "==> Waiting for rollout..."
-kubectl -n "$NAMESPACE" rollout status deployment/"$DEPLOYMENT"
+echo "==> Deploying with Ansible..."
+ansible-playbook -i "$REPO_ROOT/ops/ansible/inventory.ini" \
+	"$REPO_ROOT/ops/ansible/deploy-k3s.yml" \
+	--extra-vars "app_name=$APP_NAME build_image=$BUILD_IMAGE tag=$TAG registry=$REGISTRY"
 
 echo "✓ Deployment complete!"

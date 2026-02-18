@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ app.name }}
+  namespace: {{ app.namespace }}
+  labels:
+    app: {{ app.name }}
+spec:
+  replicas: {{ replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ app.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ app.name }}
+    spec:
+      containers:
+        - name: {{ app.name }}
+          image: "{{ image_repository }}:{{ image_tag }}"
+          imagePullPolicy: {{ image.pullPolicy | default('IfNotPresent') }}
+          ports:
+            - containerPort: {{ containerPort }}
+{% if env is defined and env | length > 0 %}
+          env:
+{% for item in env %}
+            - name: {{ item.name }}
+              value: "{{ item.value }}"
+{% endfor %}
+{% endif %}
+{% if resources is defined and resources %}
+          resources:
+{{ resources | to_nice_yaml(indent=12) | indent(10) }}
+{% endif %}

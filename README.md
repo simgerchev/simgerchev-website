@@ -30,21 +30,21 @@ To get started, clone the repository and install dependencies:
 ```bash
 git clone https://gitlab.com/simgerchev/cv-website.git
 cd cv-website
-cd frontend
+cd app/simgerchev-website
 npm install
 ```
 
 To run the development server:
 
 ```bash
-cd frontend
+cd app/simgerchev-website
 npm run dev
 ```
 
 To run the site with Docker:
 
 ```bash
-docker-compose up --build
+docker compose -f ops/docker-compose.yml up --build
 ```
 
 ---
@@ -58,6 +58,10 @@ Make sure you have [Node.js](https://nodejs.org/) and [Docker](https://www.docke
 ## Usage
 
 Examples and usage instructions will be added as the project develops.
+
+## Deployment
+
+Deployment is automated with Ansible. See ops/DEPLOYMENT.md for the full guide.
 
 ---
 

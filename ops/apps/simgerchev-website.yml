@@ -1,0 +1,31 @@
+app:
+  id: simgerchev-website
+  name: frontend
+  namespace: simgerchev-website
+
+replicaCount: 1
+
+image:
+  pullPolicy: Always
+
+service:
+  name: frontend
+  type: ClusterIP
+  port: 5173
+  targetPort: 5173
+
+containerPort: 5173
+
+env:
+  - name: CHOKIDAR_USEPOLLING
+    value: "true"
+
+resources: {}
+
+ingress:
+  enabled: true
+  name: frontend
+  className: traefik
+  host: ""
+  path: /
+  pathType: Prefix
