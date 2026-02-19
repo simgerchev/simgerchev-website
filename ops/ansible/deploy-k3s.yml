@@ -1,0 +1,118 @@
+---
+- name: Deploy app to k3s
+  hosts: k3s
+  gather_facts: false
+  vars:
+    app_name: simgerchev-website
+    build_image: true
+    tag: ""
+    registry: "localhost:5000"
+    project_root: "{{ playbook_dir }}/../.."
+    app_dir: "app/{{ app_name }}"
+    app_vars_path: "{{ project_root }}/ops/apps/{{ app_name }}.yml"
+    templates_dir: "{{ project_root }}/ops/templates"
+  tasks:
+    - name: Validate app vars file
+      ansible.builtin.stat:
+        path: "{{ app_vars_path }}"
+      register: app_vars_stat
+
+    - name: Fail when app vars file missing
+      ansible.builtin.fail:
+        msg: "App vars file '{{ app_vars_path }}' not found"
+      when: not app_vars_stat.stat.exists
+
+    - name: Load app variables
+      ansible.builtin.include_vars:
+        file: "{{ app_vars_path }}"
+
+    - name: Validate app directory
+      ansible.builtin.stat:
+        path: "{{ project_root }}/{{ app_dir }}"
+      register: app_dir_stat
+
+    - name: Fail when app directory missing
+      ansible.builtin.fail:
+        msg: "Application directory '{{ app_dir }}' not found under {{ project_root }}"
+      when: not app_dir_stat.stat.exists
+
+    - name: Resolve tag when building
+      ansible.builtin.set_fact:
+        resolved_tag: "{{ lookup('pipe', 'date +%Y%m%d-%H%M%S') }}"
+      when: build_image and (tag | length == 0)
+
+    - name: Fail when tag is required
+      ansible.builtin.fail:
+        msg: "build_image=false requires tag to be set"
+      when: not build_image and (tag | length == 0)
+
+    - name: Use provided tag
+      ansible.builtin.set_fact:
+        resolved_tag: "{{ tag }}"
+      when: tag | length > 0
+
+    - name: Compose image reference
+      ansible.builtin.set_fact:
+        image_repository: "{{ registry }}/{{ app.id | default(app_name) }}"
+        image_tag: "{{ resolved_tag }}"
+
+    - name: Compose full image
+      ansible.builtin.set_fact:
+        image: "{{ image_repository }}:{{ image_tag }}"
+
+    - name: Build image
+      ansible.builtin.command: "docker build -t {{ image }} {{ app_dir }}"
+      args:
+        chdir: "{{ project_root }}"
+      when: build_image
+
+    - name: Push image
+      ansible.builtin.command: "docker push {{ image }}"
+      args:
+        chdir: "{{ project_root }}"
+      when: build_image
+
+    - name: Create render directory
+      ansible.builtin.tempfile:
+        state: directory
+        suffix: "-k8s-{{ app.id | default(app_name) }}"
+      register: render_dir
+
+    - name: Render namespace template
+      ansible.builtin.template:
+        src: "{{ templates_dir }}/namespace.yaml.j2"
+        dest: "{{ render_dir.path }}/namespace.yaml"
+
+    - name: Apply namespace
+      ansible.builtin.command: "kubectl apply -f {{ render_dir.path }}/namespace.yaml"
+      args:
+        chdir: "{{ project_root }}"
+      become: true
+
+    - name: Render deployment template
+      ansible.builtin.template:
+        src: "{{ templates_dir }}/deployment.yaml.j2"
+        dest: "{{ render_dir.path }}/deployment.yaml"
+
+    - name: Render service template
+      ansible.builtin.template:
+        src: "{{ templates_dir }}/service.yaml.j2"
+        dest: "{{ render_dir.path }}/service.yaml"
+
+    - name: Render ingress template
+      ansible.builtin.template:
+        src: "{{ templates_dir }}/ingress.yaml.j2"
+        dest: "{{ render_dir.path }}/ingress.yaml"
+      when: ingress is defined and ingress.enabled
+
+    - name: Apply Kubernetes manifests
+      ansible.builtin.command: "kubectl apply -f {{ render_dir.path }}/"
+      args:
+        chdir: "{{ project_root }}"
+      become: true
+
+    - name: Wait for rollout
+      ansible.builtin.command: "kubectl -n {{ app.namespace }} rollout status deployment/{{ app.name }}"
+      args:
+        chdir: "{{ project_root }}"
+      become: true

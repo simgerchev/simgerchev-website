@@ -43,48 +43,73 @@ If your registry is on a different machine, replace `localhost` with the registr
 
 ## Deploying Applications
 
+Deployment is automated with Ansible. The bash script is only a thin wrapper that calls the playbook with the right variables.
+
 ### Deploy simgerchev-website (this project)
+
+Run the playbook directly (recommended):
+
+```bash
+ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml
+```
+
+Or use the wrapper script (does the same thing):
 
 ```bash
 # Build, push, and deploy with auto-generated tag
-./k3s-deploy.sh
+./ops/k3s-deploy.sh
 
 # Or use a specific tag
-./k3s-deploy.sh --tag v1.0.0
+./ops/k3s-deploy.sh --tag v1.0.0
 
 # Deploy without rebuilding (reuse existing image)
-./k3s-deploy.sh --no-build --tag v1.0.0
+./ops/k3s-deploy.sh --no-build --tag v1.0.0
 ```
 
 ### Deploy other applications
+
+Direct Ansible usage:
+
+```bash
+ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
+  --extra-vars "app_name=another-app"
+```
 
 For future apps, organize your repository like this:
 
 ```
 repository/
-├── k3s-deploy.sh          # Shared deploy script
-├── frontend/              # simgerchev-website (backward compat)
-│   ├── Dockerfile
-│   └── ...
-├── another-app/           # New app
-│   ├── Dockerfile
-│   └── ...
-├── k8s/
-│   ├── namespace.yaml     # simgerchev-website namespace
-│   ├── frontend-deployment.yaml
-│   ├── ingress.yaml
-│   └── another-app/       # New app manifests
-│       ├── namespace.yaml
-│       ├── deployment.yaml
-│       └── ingress.yaml
+├── app/
+│   ├── simgerchev-website/
+│   │   ├── Dockerfile
+│   │   └── ...
+│   └── another-app/       # New app
+│       ├── Dockerfile
+│       └── ...
+└── ops/
+  ├── apps/
+  │   ├── simgerchev-website.yml
+  │   └── another-app.yml
+  ├── templates/
+  │   ├── namespace.yaml.j2
+  │   ├── deployment.yaml.j2
+  │   ├── service.yaml.j2
+  │   └── ingress.yaml.j2
+  └── k3s-deploy.sh      # Shared deploy script
 ```
 
-Then deploy any app:
+Wrapper script usage:
 
 ```bash
-./k3s-deploy.sh another-app
-./k3s-deploy.sh my-backend-api
+./ops/k3s-deploy.sh another-app
+./ops/k3s-deploy.sh my-backend-api
 ```
+
+To add a new app:
+
+1. Create app code under app/<app-name> with a Dockerfile.
+2. Copy ops/apps/simgerchev-website.yml to ops/apps/<app-name>.yml.
+3. Update app/namespace, ports, ingress, env, and resources in that file.
 
 ## Deploy All Applications
 
@@ -98,8 +123,8 @@ set -e
 
 echo "Deploying all applications..."
 
-./k3s-deploy.sh simgerchev-website
-./k3s-deploy.sh another-app
+./ops/k3s-deploy.sh simgerchev-website
+./ops/k3s-deploy.sh another-app
 # Add more apps here
 
 echo "All applications deployed!"
