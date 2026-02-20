@@ -1,0 +1,29 @@
+app:
+  id: example-app
+  name: web
+  namespace: example-app
+
+replicaCount: 1
+
+image:
+  pullPolicy: IfNotPresent
+
+service:
+  name: web
+  type: ClusterIP
+  port: 8080
+  targetPort: 8080
+
+containerPort: 8080
+
+env: []
+
+resources: {}
+
+ingress:
+  enabled: false
+  name: web
+  className: traefik
+  host: ""
+  path: /
+  pathType: Prefix

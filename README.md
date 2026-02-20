@@ -61,7 +61,14 @@ Examples and usage instructions will be added as the project develops.
 
 ## Deployment
 
-Deployment is automated with Ansible. See ops/DEPLOYMENT.md for the full guide.
+Deployment is automated with Ansible:
+
+```bash
+ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
+	--extra-vars "app_name=simgerchev-website"
+```
+
+See ops/README.md for reusable template usage and ops/DEPLOYMENT.md for the full guide.
 
 ---
 

@@ -1,5 +1,7 @@
 # Deployment Guide
 
+This `ops/` folder is designed to be reused as a deployment template across different repositories.
+
 ## Prerequisites
 
 1. **k3s installed** on your homelab server
@@ -43,21 +45,41 @@ If your registry is on a different machine, replace `localhost` with the registr
 
 ## Deploying Applications
 
-Deployment is automated with Ansible. The bash script is only a thin wrapper that calls the playbook with the right variables.
+Deployment is automated with Ansible.
 
-### Deploy simgerchev-website (this project)
+### Deploy an app in this repository
 
-Run the playbook directly (recommended):
+Run the playbook directly:
 
 ```bash
 ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml
 ```
 
-Or use the wrapper script (does the same thing):
+Deploy a specific app:
 
 ```bash
-# Build, push, and deploy with auto-generated tag
-./ops/k3s-deploy.sh
+ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
+  --extra-vars "app_name=simgerchev-website"
+```
+
+Deploy with a custom registry:
+
+```bash
+ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
+  --extra-vars "app_name=simgerchev-website registry=registry.example.com:5000"
+```
+
+Deploy without rebuilding (use existing image tag):
+
+```bash
+ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
+  --extra-vars "app_name=simgerchev-website build_image=false tag=v1.0.0"
+```
+
+Optional wrapper script (same behavior):
+
+```bash
+./ops/k3s-deploy.sh simgerchev-website
 
 # Or use a specific tag
 ./ops/k3s-deploy.sh --tag v1.0.0
@@ -88,6 +110,7 @@ repository/
 │       └── ...
 └── ops/
   ├── apps/
+  │   ├── example-app.yml
   │   ├── simgerchev-website.yml
   │   └── another-app.yml
   ├── templates/
@@ -98,18 +121,33 @@ repository/
   └── k3s-deploy.sh      # Shared deploy script
 ```
 
-Wrapper script usage:
+Ansible usage:
 
 ```bash
-./ops/k3s-deploy.sh another-app
-./ops/k3s-deploy.sh my-backend-api
+ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
+  --extra-vars "app_name=another-app"
+ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
+  --extra-vars "app_name=my-backend-api"
 ```
 
 To add a new app:
 
 1. Create app code under app/<app-name> with a Dockerfile.
-2. Copy ops/apps/simgerchev-website.yml to ops/apps/<app-name>.yml.
+2. Copy ops/apps/example-app.yml to ops/apps/<app-name>.yml.
 3. Update app/namespace, ports, ingress, env, and resources in that file.
+
+## Reusing this ops folder in another repository
+
+1. Copy `ops/` into the new repository.
+2. Ensure application code lives in `app/<app-name>/` with a Dockerfile.
+3. Copy `ops/apps/example-app.yml` to `ops/apps/<app-name>.yml` and set values.
+4. Update `ops/ansible/inventory.ini` for your target host(s).
+5. Deploy with:
+
+```bash
+ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
+  --extra-vars "app_name=<app-name>"
+```
 
 ## Deploy All Applications
 
