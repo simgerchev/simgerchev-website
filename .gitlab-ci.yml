@@ -50,6 +50,7 @@ approve_production_deploy:
 
 deploy_k3s_manual:
   stage: deploy
+  image: python:3.12-alpine
   needs:
     - verify_frontend
     - verify_ansible_syntax
