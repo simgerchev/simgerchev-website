@@ -51,6 +51,8 @@ approve_production_deploy:
 deploy_k3s_manual:
   stage: deploy
   image: python:3.12-alpine
+  before_script:
+    - python -m pip install --no-cache-dir ansible-core
   needs:
     - verify_frontend
     - verify_ansible_syntax
