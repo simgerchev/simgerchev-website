@@ -1,6 +1,5 @@
 stages:
   - verify
-  - build
   - gate
   - deploy
 
@@ -39,34 +38,6 @@ verify_ansible_syntax:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_COMMIT_BRANCH'
 
-build_image:
-  stage: build
-  image: docker:27-cli
-  services:
-    - name: docker:27-dind
-      alias: docker
-  variables:
-    DOCKER_HOST: tcp://docker:2375
-    DOCKER_TLS_CERTDIR: ""
-  needs:
-    - verify_frontend
-  script:
-    - |
-      if [ -n "$TAG" ]; then
-        IMAGE_TAG="$TAG"
-      else
-        IMAGE_TAG="$(date +%Y%m%d-%H%M%S)-${CI_COMMIT_SHORT_SHA}"
-      fi
-    - echo "DEPLOY_TAG=${IMAGE_TAG}" > build.env
-    - docker build -t "${REGISTRY}/${APP_NAME}:${IMAGE_TAG}" app/simgerchev-website
-    - docker push "${REGISTRY}/${APP_NAME}:${IMAGE_TAG}"
-  artifacts:
-    reports:
-      dotenv: build.env
-    expire_in: 1 day
-  rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-
 approve_production_deploy:
   stage: gate
   script:
@@ -84,18 +55,14 @@ deploy_k3s_manual:
     - python -m pip install --no-cache-dir ansible-core
   needs:
     - job: verify_ansible_syntax
-    - job: build_image
-      artifacts: true
     - job: approve_production_deploy
   script:
     - |
-      EFFECTIVE_TAG="${TAG:-$DEPLOY_TAG}"
-      if [ -z "$EFFECTIVE_TAG" ]; then
-        echo "No tag available. Set TAG manually or ensure build_image produced DEPLOY_TAG"
+      if [ -z "$TAG" ]; then
+        echo "TAG is required in CI deploy. This pipeline deploys an existing image only."
         exit 1
       fi
-      export EFFECTIVE_TAG
-    - EXTRA_VARS="app_name=${APP_NAME} registry=${REGISTRY} build_image=false tag=${EFFECTIVE_TAG}"
+    - EXTRA_VARS="app_name=${APP_NAME} registry=${REGISTRY} build_image=false tag=${TAG}"
     - ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml --extra-vars "$EXTRA_VARS"
   when: manual
   allow_failure: false
