@@ -1,32 +1,3 @@
-import {
-  Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer
-} from 'recharts';
-
-const languageData = [
-  { subject: "JavaScript", A: 50 },
-  { subject: "Python", A: 50 },
-  { subject: "C#", A: 35 },
-  { subject: "PHP", A: 60 },
-  { subject: "Go", A: 35 },
-];
-
-const frameworkData = [
-  { subject: "React", A: 40 },
-  { subject: "Django", A: 30 },
-  { subject: "Laravel", A: 40 },
-  { subject: "Symfony", A: 50 },
-  { subject: "Unity", A: 35 },
-];
-
-const devopsData = [
-  { subject: "Docker", A: 45 },
-  { subject: "Git(Github,Gitlab)", A: 50 },
-  { subject: "Linux", A: 45 },
-  { subject: "Redis", A: 35 },
-  { subject: "RabbitMQ", A: 35 },
-  { subject: "Jenkins", A: 35 },
-];
-
 export default function Skills() {
   return (
     <section className="skills-section" id="skills">

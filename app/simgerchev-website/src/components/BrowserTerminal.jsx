@@ -344,7 +344,7 @@ const commandRegistry = [
           // Decode base64
           const decoded = atob(node.content);
           return decoded;
-        } catch (e) {
+        } catch {
           return "base64: decoding failed";
         }
       } else {
@@ -352,7 +352,7 @@ const commandRegistry = [
         try {
           const encoded = btoa(node.content);
           return encoded;
-        } catch (e) {
+        } catch {
           return "base64: encoding failed";
         }
       }

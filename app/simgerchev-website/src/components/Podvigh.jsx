@@ -45,28 +45,17 @@ function generateZoneFeatures(zone) {
     // Generate additional features for a zone (none currently).
     // We'll create a deterministic PRNG per zone using a simple LCG so the same
     // zone name yields the same features until the zone is replaced.
-    function lcg(seed) {
-        let s = seed >>> 0;
-        return function() {
-            s = (1664525 * s + 1013904223) >>> 0;
-            return s / 0x100000000;
-        };
-    }
-
     // derive seed from zone.name (fall back to random if unavailable)
     const name = zone.name || JSON.stringify(zone);
     let seed = 0;
     for (let i = 0; i < name.length; i++) seed = (seed * 31 + name.charCodeAt(i)) >>> 0;
-
-    const width = MAP_WIDTH;
-    const height = MAP_HEIGHT;
 
     // No additional features for now
     return { ...zone };
 }
 
 // --- COMPONENT ---
-const podvigh = () => {
+const Podvigh = () => {
     // World state
     // start player centered in the zone
     const [player, setPlayer] = useState({ x: Math.floor(MAP_WIDTH/2), y: Math.floor(MAP_HEIGHT/2) });
@@ -158,7 +147,7 @@ const podvigh = () => {
     // Check whether a given tile belongs to a deterministically-placed 'place' object.
     // If it does, return { place, originX, originY } else null.
     function findPlaceAtTile(x, y) {
-        const { zone, origin } = getZoneAt(x, y);
+        const { zone } = getZoneAt(x, y);
         const objects = INTERACTION_OBJECTS_BY_ZONE[zone.name] || [];
         const placeCandidates = objects.filter(o => o.type === 'place' && (!o.allowedZones || o.allowedZones.includes(zone.name)));
         if (placeCandidates.length === 0) return null;
@@ -635,4 +624,4 @@ const INTERACTION_OBJECTS_BY_ZONE = {
     // Add more as needed, e.g. "Mountains": mountainsInteractions
 };
 
-export default podvigh;
+export default Podvigh;

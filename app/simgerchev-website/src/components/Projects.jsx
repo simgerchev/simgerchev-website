@@ -1,9 +1,5 @@
-import projectFirst from '../assets/project-pictures/project-first.png';
 import projectSecond from '../assets/project-pictures/project-second.jpg';
 import projectThird from '../assets/project-pictures/project-third.png';
-import projectFourth from '../assets/project-pictures/project-fourth.png';
-import projectFifth from '../assets/project-pictures/project-fifth.png';
-import projectSixth from '../assets/project-pictures/project-sixth.png';
 import projectSeventh from '../assets/project-pictures/project-seventh.png';
 import { Link } from 'react-router-dom';
 

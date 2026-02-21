@@ -137,7 +137,7 @@ export default function CyberMonk() {
 									"Type 'ls' to see available paths, 'cd forest_deep' to enter the forest, 'cd ..' to go back, or 'help' to open your book."
 								]);
 								return;
-							case "help":
+							case "help": {
 								const helpCommands = [
 									"You open your book. Available movements and actions:",
 									"- cd <location>: Change to a new location (e.g. cd forest_deeper, cd crystal_cavern).",
@@ -154,6 +154,7 @@ export default function CyberMonk() {
 								// Output each command as a separate line in the terminal
 								helpCommands.forEach(cmd => setLines(prev => [...prev, cmd]));
 								return;
+							}
 							case "ls": {
 								const loc = LOCATIONS[state.location];
 								// Always hide hidden locations (starting with a dot)
@@ -181,7 +182,7 @@ export default function CyberMonk() {
 							case "pwd":
 								output = state.location;
 								break;
-							case "cd":
+							case "cd": {
 								const dir = args[0];
 								if (dir === "..") {
 									const parent = LOCATIONS[state.location].parent;
@@ -229,6 +230,7 @@ export default function CyberMonk() {
 									}
 								}
 								break;
+							}
 							case "cat":
 								if (!state.unlocked.includes('cat')) {
 									output = "Unknown command. Type 'help' to open your book.";
@@ -275,11 +277,9 @@ export default function CyberMonk() {
 			// Save progression to localStorage
 			try {
 				localStorage.setItem('cyberMonkState', JSON.stringify(newState));
-			} catch {}
-	}
-
-	function isMobileDevice() {
-		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+			} catch {
+				return;
+			}
 	}
 
 	function handleInput(e) {
