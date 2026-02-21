@@ -1,89 +1,64 @@
-# React + Vite + Docker CV Website
+# Simgerchev Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Personal website built with React + Vite.
 
-Currently, two official plugins are available:
+## Project Layout
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- `app/simgerchev-website` - React application
+- `ops` - reusable k3s/Ansible deployment automation
 
-## Expanding the ESLint configuration
+## Prerequisites
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Node.js 20+
+- npm
+- Docker (for image build/push and containerized workflows)
+- Ansible + kubectl (for k3s deployment)
 
----
+## Local Development
 
-## Project Status
-
-Implemented:
-- Terminal Simulator (still room for improvement, e.g., file system)
-
-To Do:
-- Random Dungeon Generator / RPG
-
----
-
-## Getting Started
-
-To get started, clone the repository and install dependencies:
+From the repository root:
 
 ```bash
-git clone https://gitlab.com/simgerchev/cv-website.git
-cd cv-website
 cd app/simgerchev-website
 npm install
-```
-
-To run the development server:
-
-```bash
-cd app/simgerchev-website
 npm run dev
 ```
 
-To run the site with Docker:
+Other useful commands:
 
 ```bash
-docker compose -f ops/docker-compose.yml up --build
+npm run build
+npm run preview
+npm run lint
 ```
 
----
+## Deployments
 
-## Installation
+### k3s (Ansible)
 
-Make sure you have [Node.js](https://nodejs.org/) and [Docker](https://www.docker.com/) installed.
-
----
-
-## Usage
-
-Examples and usage instructions will be added as the project develops.
-
-## Deployment
-
-Deployment is automated with Ansible:
+From the repository root:
 
 ```bash
 ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
 	--extra-vars "app_name=simgerchev-website"
 ```
 
-See ops/README.md for reusable template usage and ops/DEPLOYMENT.md for the full guide.
+Use an existing image tag (skip build/push):
 
----
+```bash
+ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
+	--extra-vars "app_name=simgerchev-website build_image=false tag=v1.0.0"
+```
 
-## Contributing
+### GitHub Pages
 
-Contributions are welcome! Please open an issue or submit a pull request.
+From `app/simgerchev-website`:
 
----
+```bash
+npm run deploy
+```
 
-## License
+## Ops Docs
 
-Specify your license here.
-
----
-
-## Authors and Acknowledgment
-
-Created by Simgerchev. Thanks to [makeareadme.com](https://www.makeareadme.com/) for the README template inspiration.
+- `ops/README.md` - reusable ops template usage
+- `ops/DEPLOYMENT.md` - full deployment guide and troubleshooting

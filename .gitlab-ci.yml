@@ -1,0 +1,74 @@
+stages:
+  - verify
+  - gate
+  - deploy
+
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+    - if: '$CI_PIPELINE_SOURCE == "pipeline"'
+
+variables:
+  APP_NAME: "simgerchev-website"
+  REGISTRY: "localhost:5000"
+  BUILD_IMAGE: "true"
+  TAG: ""
+
+verify_frontend:
+  stage: verify
+  image: node:20
+  script:
+    - cd app/simgerchev-website
+    - npm ci
+    - npm run lint
+    - npm run build
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH'
+
+verify_ansible_syntax:
+  stage: verify
+  image: python:3.12-alpine
+  before_script:
+    - python -m pip install --no-cache-dir ansible-core
+  script:
+    - ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml --syntax-check
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH'
+
+approve_production_deploy:
+  stage: gate
+  script:
+    - echo "Deployment approved manually"
+  when: manual
+  allow_failure: false
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
+deploy_k3s_manual:
+  stage: deploy
+  needs:
+    - verify_frontend
+    - verify_ansible_syntax
+    - approve_production_deploy
+  script:
+    - |
+      if [ "$BUILD_IMAGE" = "false" ] && [ -z "$TAG" ]; then
+        echo "BUILD_IMAGE=false requires TAG to be set"
+        exit 1
+      fi
+    - EXTRA_VARS="app_name=${APP_NAME} registry=${REGISTRY} build_image=${BUILD_IMAGE}"
+    - |
+      if [ -n "$TAG" ]; then
+        EXTRA_VARS="${EXTRA_VARS} tag=${TAG}"
+      fi
+    - ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml --extra-vars "$EXTRA_VARS"
+  when: manual
+  allow_failure: false
+  environment:
+    name: production
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
