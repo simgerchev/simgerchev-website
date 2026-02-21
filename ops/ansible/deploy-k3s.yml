@@ -39,12 +39,12 @@
     - name: Resolve tag when building
       ansible.builtin.set_fact:
         resolved_tag: "{{ lookup('pipe', 'date +%Y%m%d-%H%M%S') }}"
-      when: build_image and (tag | length == 0)
+      when: (build_image | bool) and (tag | length == 0)
 
     - name: Fail when tag is required
       ansible.builtin.fail:
         msg: "build_image=false requires tag to be set"
-      when: not build_image and (tag | length == 0)
+      when: not (build_image | bool) and (tag | length == 0)
 
     - name: Use provided tag
       ansible.builtin.set_fact:
@@ -64,13 +64,13 @@
       ansible.builtin.command: "docker build -t {{ image }} {{ app_dir }}"
       args:
         chdir: "{{ project_root }}"
-      when: build_image
+      when: build_image | bool
 
     - name: Push image
       ansible.builtin.command: "docker push {{ image }}"
       args:
         chdir: "{{ project_root }}"
-      when: build_image
+      when: build_image | bool
 
     - name: Create render directory
       ansible.builtin.tempfile:
