@@ -6,6 +6,7 @@
     app_name: simgerchev-website
     build_image: true
     tag: ""
+    default_build_tag: "latest"
     registry: "localhost:5000"
     project_root: "{{ playbook_dir }}/../.."
     app_dir: "app/{{ app_name }}"
@@ -38,7 +39,7 @@
 
     - name: Resolve tag when building
       ansible.builtin.set_fact:
-        resolved_tag: "{{ lookup('pipe', 'date +%Y%m%d-%H%M%S') }}"
+        resolved_tag: "{{ default_build_tag }}"
       when: (build_image | bool) and (tag | length == 0)
 
     - name: Fail when tag is required

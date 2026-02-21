@@ -13,7 +13,7 @@ workflow:
 variables:
   APP_NAME: "simgerchev-website"
   REGISTRY: "localhost:5000"
-  TAG: ""
+  TAG: "latest"
 
 verify_frontend:
   stage: verify
