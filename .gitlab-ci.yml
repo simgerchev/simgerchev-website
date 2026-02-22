@@ -60,14 +60,28 @@ deploy_k3s_manual:
       elif [ -n "$KUBECONFIG_CONTENT_B64" ]; then
         echo "$KUBECONFIG_CONTENT_B64" | base64 -d > "$HOME/.kube/config"
         export KUBECONFIG="$HOME/.kube/config"
+      elif [ -n "$KUBE_CONFIG_B64" ]; then
+        echo "$KUBE_CONFIG_B64" | base64 -d > "$HOME/.kube/config"
+        export KUBECONFIG="$HOME/.kube/config"
       elif [ -n "$KUBECONFIG_CONTENT" ]; then
         printf '%s' "$KUBECONFIG_CONTENT" > "$HOME/.kube/config"
+        export KUBECONFIG="$HOME/.kube/config"
+      elif [ -n "$KUBE_CONFIG" ] && [ -f "$KUBE_CONFIG" ]; then
+        export KUBECONFIG="$KUBE_CONFIG"
+      elif [ -n "$KUBE_CONFIG" ]; then
+        printf '%s' "$KUBE_CONFIG" > "$HOME/.kube/config"
         export KUBECONFIG="$HOME/.kube/config"
       elif [ -n "$KUBECONFIG" ]; then
         printf '%s' "$KUBECONFIG" > "$HOME/.kube/config"
         export KUBECONFIG="$HOME/.kube/config"
+      elif [ -f "$HOME/.kube/config" ]; then
+        export KUBECONFIG="$HOME/.kube/config"
+      elif [ -f "/root/.kube/config" ]; then
+        export KUBECONFIG="/root/.kube/config"
       else
-        echo "Missing kubeconfig. Set one of: KUBECONFIG (File variable), KUBECONFIG_CONTENT, or KUBECONFIG_CONTENT_B64"
+        echo "Missing kubeconfig. Set one of: KUBECONFIG (File variable), KUBECONFIG_CONTENT, KUBECONFIG_CONTENT_B64, KUBE_CONFIG, or KUBE_CONFIG_B64"
+        echo "Debug (lengths only): KUBECONFIG=${#KUBECONFIG} KUBECONFIG_CONTENT=${#KUBECONFIG_CONTENT} KUBECONFIG_CONTENT_B64=${#KUBECONFIG_CONTENT_B64} KUBE_CONFIG=${#KUBE_CONFIG} KUBE_CONFIG_B64=${#KUBE_CONFIG_B64}"
+        echo "If variables are Protected, this job must run on a protected branch/tag."
         exit 1
       fi
     - kubectl cluster-info
