@@ -31,7 +31,7 @@ verify_ansible_syntax:
   stage: verify
   image: python:3.12-alpine
   before_script:
-    - python -m pip install --no-cache-dir ansible-core
+    - python -m pip install --no-cache-dir --root-user-action=ignore ansible-core
   script:
     - ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml --syntax-check
   rules:
@@ -52,17 +52,20 @@ deploy_k3s_manual:
   image: python:3.12-alpine
   before_script:
     - apk add --no-cache kubectl
-    - python -m pip install --no-cache-dir ansible-core
+    - python -m pip install --no-cache-dir --root-user-action=ignore ansible-core
     - mkdir -p "$HOME/.kube"
     - |
-      if [ -n "$KUBECONFIG_CONTENT_B64" ]; then
+      if [ -n "$KUBECONFIG" ] && [ -f "$KUBECONFIG" ]; then
+        export KUBECONFIG
+      elif [ -n "$KUBECONFIG_CONTENT_B64" ]; then
         echo "$KUBECONFIG_CONTENT_B64" | base64 -d > "$HOME/.kube/config"
         export KUBECONFIG="$HOME/.kube/config"
       elif [ -n "$KUBECONFIG_CONTENT" ]; then
         printf '%s' "$KUBECONFIG_CONTENT" > "$HOME/.kube/config"
         export KUBECONFIG="$HOME/.kube/config"
-      elif [ -n "$KUBECONFIG" ] && [ -f "$KUBECONFIG" ]; then
-        export KUBECONFIG
+      elif [ -n "$KUBECONFIG" ]; then
+        printf '%s' "$KUBECONFIG" > "$HOME/.kube/config"
+        export KUBECONFIG="$HOME/.kube/config"
       else
         echo "Missing kubeconfig. Set one of: KUBECONFIG (File variable), KUBECONFIG_CONTENT, or KUBECONFIG_CONTENT_B64"
         exit 1
