@@ -55,30 +55,27 @@ deploy_k3s_manual:
     - python -m pip install --no-cache-dir --root-user-action=ignore ansible-core
     - mkdir -p "$HOME/.kube"
     - |
-      if [ -n "$KUBECONFIG" ] && [ -f "$KUBECONFIG" ]; then
-        export KUBECONFIG
-      elif [ -n "$KUBECONFIG_CONTENT_B64" ]; then
-        echo "$KUBECONFIG_CONTENT_B64" | base64 -d > "$HOME/.kube/config"
-        export KUBECONFIG="$HOME/.kube/config"
-      elif [ -n "$KUBE_CONFIG_B64" ]; then
-        echo "$KUBE_CONFIG_B64" | base64 -d > "$HOME/.kube/config"
-        export KUBECONFIG="$HOME/.kube/config"
-      elif [ -n "$KUBECONFIG_CONTENT" ]; then
-        printf '%s' "$KUBECONFIG_CONTENT" > "$HOME/.kube/config"
-        export KUBECONFIG="$HOME/.kube/config"
-      elif [ -n "$KUBE_CONFIG" ] && [ -f "$KUBE_CONFIG" ]; then
-        export KUBECONFIG="$KUBE_CONFIG"
-      elif [ -n "$KUBE_CONFIG" ]; then
-        printf '%s' "$KUBE_CONFIG" > "$HOME/.kube/config"
-        export KUBECONFIG="$HOME/.kube/config"
-      elif [ -n "$KUBECONFIG" ]; then
-        printf '%s' "$KUBECONFIG" > "$HOME/.kube/config"
-        export KUBECONFIG="$HOME/.kube/config"
-      elif [ -f "$HOME/.kube/config" ]; then
-        export KUBECONFIG="$HOME/.kube/config"
-      elif [ -f "/root/.kube/config" ]; then
-        export KUBECONFIG="/root/.kube/config"
-      else
+      for candidate in "$KUBECONFIG" "$KUBE_CONFIG" "$HOME/.kube/config" "/root/.kube/config"; do
+        if [ -n "$candidate" ] && [ -f "$candidate" ]; then
+          export KUBECONFIG="$candidate"
+          break
+        fi
+      done
+
+      if [ -z "$KUBECONFIG" ] || [ ! -f "$KUBECONFIG" ]; then
+        KUBECONFIG_B64_VALUE="${KUBECONFIG_CONTENT_B64:-$KUBE_CONFIG_B64}"
+        KUBECONFIG_RAW_VALUE="${KUBECONFIG_CONTENT:-${KUBECONFIG:-$KUBE_CONFIG}}"
+
+        if [ -n "$KUBECONFIG_B64_VALUE" ]; then
+          echo "$KUBECONFIG_B64_VALUE" | base64 -d > "$HOME/.kube/config"
+          export KUBECONFIG="$HOME/.kube/config"
+        elif [ -n "$KUBECONFIG_RAW_VALUE" ]; then
+          printf '%s' "$KUBECONFIG_RAW_VALUE" > "$HOME/.kube/config"
+          export KUBECONFIG="$HOME/.kube/config"
+        fi
+      fi
+
+      if [ -z "$KUBECONFIG" ] || [ ! -f "$KUBECONFIG" ]; then
         echo "Missing kubeconfig. Set one of: KUBECONFIG (File variable), KUBECONFIG_CONTENT, KUBECONFIG_CONTENT_B64, KUBE_CONFIG, or KUBE_CONFIG_B64"
         echo "Debug (lengths only): KUBECONFIG=${#KUBECONFIG} KUBECONFIG_CONTENT=${#KUBECONFIG_CONTENT} KUBECONFIG_CONTENT_B64=${#KUBECONFIG_CONTENT_B64} KUBE_CONFIG=${#KUBE_CONFIG} KUBE_CONFIG_B64=${#KUBE_CONFIG_B64}"
         echo "If variables are Protected, this job must run on a protected branch/tag."
