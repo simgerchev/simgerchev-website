@@ -93,8 +93,8 @@ ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
 ```
 
 Sample stack config files are included at `ops/apps/frontend.yml`, `ops/apps/backend.yml`, and `ops/apps/db.yml`.
-They are disabled by default (`app.enabled: false`) and act as dummy examples until you enable them.
-Create matching source directories (`app/frontend/`, `app/backend/`, `app/db/`) before enabling/deploying that stack.
+They act as dummy examples until you include them in your deployment app list.
+Create matching source directories (`app/frontend/`, `app/backend/`, `app/db/`) before deploying that stack.
 
 ## Notes
 

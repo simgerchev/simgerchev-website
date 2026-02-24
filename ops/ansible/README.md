@@ -40,7 +40,7 @@ ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
 ```
 
 Sample app configs are provided in `ops/apps/frontend.yml`, `ops/apps/backend.yml`, and `ops/apps/db.yml`.
-Those are disabled by default (`app.enabled: false`) and require matching application directories in the repo (`app/frontend/`, `app/backend/`, `app/db/`) when enabled.
+Those require matching application directories in the repo (`app/frontend/`, `app/backend/`, `app/db/`) when included in the deployment app list.
 
 Ansible is the primary deployment interface. The wrapper script (`ops/k3s-deploy.sh`) is optional and only forwards variables to this playbook.
 

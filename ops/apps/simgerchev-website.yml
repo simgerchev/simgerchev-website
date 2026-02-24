@@ -2,7 +2,6 @@ app:
   id: simgerchev-website
   name: frontend
   namespace: simgerchev-website
-  enabled: true
 
 replicaCount: 1
 

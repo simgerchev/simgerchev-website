@@ -2,7 +2,6 @@ app:
   id: frontend
   name: frontend
   namespace: app-stack
-  enabled: false
 
 replicaCount: 1
 

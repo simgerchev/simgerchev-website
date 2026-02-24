@@ -2,7 +2,6 @@ app:
   id: db
   name: db
   namespace: app-stack
-  enabled: false
 
 replicaCount: 1
 
