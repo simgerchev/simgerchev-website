@@ -30,6 +30,20 @@ ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
   --extra-vars "app_name=simgerchev-website"
 ```
 
+Deploy multiple apps in a single run (for example frontend, backend, db):
+
+```bash
+ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
+  --extra-vars '{"app_names":["frontend","backend","db"]}'
+```
+
+Alternative CSV format:
+
+```bash
+ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
+  --extra-vars "app_names_csv=frontend,backend,db"
+```
+
 Useful overrides:
 
 ```bash
@@ -53,6 +67,11 @@ ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
    ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
      --extra-vars "app_name=<app-name>"
    ```
+   Or multiple apps:
+   ```bash
+   ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
+     --extra-vars '{"app_names":["frontend","backend","db"]}'
+   ```
 
 ## Add a new app
 
@@ -65,6 +84,17 @@ ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
 ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
   --extra-vars "app_name=<app-name>"
 ```
+
+Or deploy multiple apps at once:
+
+```bash
+ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
+  --extra-vars '{"app_names":["frontend","backend","db"]}'
+```
+
+Sample stack config files are included at `ops/apps/frontend.yml`, `ops/apps/backend.yml`, and `ops/apps/db.yml`.
+They are disabled by default (`app.enabled: false`) and act as dummy examples until you enable them.
+Create matching source directories (`app/frontend/`, `app/backend/`, `app/db/`) before enabling/deploying that stack.
 
 ## Notes
 

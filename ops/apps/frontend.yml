@@ -1,25 +1,23 @@
 app:
-  id: simgerchev-website
+  id: frontend
   name: frontend
-  namespace: simgerchev-website
-  enabled: true
+  namespace: app-stack
+  enabled: false
 
 replicaCount: 1
 
 image:
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 
 service:
   name: frontend
   type: ClusterIP
-  port: 5173
-  targetPort: 5173
+  port: 80
+  targetPort: 80
 
-containerPort: 5173
+containerPort: 80
 
-env:
-  - name: CHOKIDAR_USEPOLLING
-    value: "true"
+env: []
 
 resources: {}
 

@@ -1,0 +1,30 @@
+app:
+  id: db
+  name: db
+  namespace: app-stack
+  enabled: false
+
+replicaCount: 1
+
+image:
+  pullPolicy: IfNotPresent
+
+service:
+  name: db
+  type: ClusterIP
+  port: 5432
+  targetPort: 5432
+
+containerPort: 5432
+
+env: []
+
+resources: {}
+
+ingress:
+  enabled: false
+  name: db
+  className: traefik
+  host: ""
+  path: /
+  pathType: Prefix

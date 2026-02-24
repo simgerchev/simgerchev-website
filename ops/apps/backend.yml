@@ -1,0 +1,30 @@
+app:
+  id: backend
+  name: backend
+  namespace: app-stack
+  enabled: false
+
+replicaCount: 1
+
+image:
+  pullPolicy: IfNotPresent
+
+service:
+  name: backend
+  type: ClusterIP
+  port: 8080
+  targetPort: 8080
+
+containerPort: 8080
+
+env: []
+
+resources: {}
+
+ingress:
+  enabled: false
+  name: backend
+  className: traefik
+  host: ""
+  path: /
+  pathType: Prefix
