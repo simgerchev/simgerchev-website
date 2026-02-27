@@ -70,6 +70,7 @@ approve_production_deploy:
       elif [ -n "$ANSIBLE_BECOME_PASSWORD" ]; then
         export ANSIBLE_BECOME_PASS="$ANSIBLE_BECOME_PASSWORD"
       fi
+  script:
     - |
       if [ -z "$TARGET_GROUP" ]; then
         TARGET_GROUP="k3s"
