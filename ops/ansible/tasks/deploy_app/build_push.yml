@@ -7,9 +7,18 @@
   when: build_image | bool
 
 - name: Copy app sources to remote build context
-  ansible.builtin.copy:
+  ansible.builtin.synchronize:
     src: "{{ project_root }}/{{ app_dir }}/"
     dest: "{{ remote_build_context.path }}/"
+    rsync_opts:
+      - "--exclude=node_modules"
+      - "--exclude=.git"
+      - "--exclude=dist"
+      - "--exclude=build"
+      - "--exclude=.DS_Store"
+      - "--exclude=.env"
+      - "--exclude=.venv"
+      - "--exclude=__pycache__"
   when: build_image | bool
 
 - name: Build image

@@ -2,7 +2,7 @@
 - name: Set per-app paths
   ansible.builtin.set_fact:
     app_dir: "app/{{ deploy_app_name }}"
-    app_vars_path: "{{ playbook_dir }}/apps/{{ deploy_app_name }}.yml"
+    app_vars_path: "{{ playbook_dir }}/apps/{{ deploy_app_name }}/app.yml"
     templates_dir: "{{ playbook_dir }}/templates"
 
 - name: Validate app vars file

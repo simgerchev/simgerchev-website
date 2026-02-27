@@ -1,7 +1,7 @@
 app:
-  id: frontend
-  name: frontend
-  namespace: app-stack
+  id: terminal-app
+  name: terminal-app
+  namespace: terminal-app
 
 replicaCount: 1
 
@@ -9,12 +9,12 @@ image:
   pullPolicy: IfNotPresent
 
 service:
-  name: frontend
+  name: terminal-app
   type: ClusterIP
-  port: 80
-  targetPort: 80
+  port: 8080
+  targetPort: 8080
 
-containerPort: 80
+containerPort: 8080
 
 env: []
 
@@ -22,8 +22,8 @@ resources: {}
 
 ingress:
   enabled: true
-  name: frontend
+  name: terminal-app
   className: traefik
   host: ""
-  path: /
+  path: /terminal
   pathType: Prefix

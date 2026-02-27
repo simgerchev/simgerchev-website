@@ -3,7 +3,9 @@
 app_name: simgerchev-website
 
 # Optional multi-app deployment inputs
-app_names: []
+app_names:
+  - simgerchev-website
+  - terminal-app
 app_names_csv: ""
 
 # Image build/deploy settings
