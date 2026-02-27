@@ -10,7 +10,7 @@ app_names_csv: ""
 
 # Image build/deploy settings
 build_image: true
-tag: ""
+tag: "{{ lookup('env', 'CI_COMMIT_SHA') | default('latest', true) }}"
 default_build_tag: "latest"
 registry: "localhost:5000"
 

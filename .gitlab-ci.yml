@@ -13,7 +13,7 @@ workflow:
 variables:
   APP_NAME: "simgerchev-website"
   REGISTRY: "localhost:5000"
-  TAG: "latest"
+  TAG: "$CI_COMMIT_SHA"
   TARGET_GROUP: "k3s"
 
 verify_frontend:
