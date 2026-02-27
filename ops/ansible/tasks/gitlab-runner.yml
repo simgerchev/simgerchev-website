@@ -54,9 +54,64 @@
   ansible.builtin.stat:
     path: /etc/gitlab-runner/config.toml
   register: gitlab_runner_config_stat
+  become: true
   when: configure_gitlab_runner | bool
 
-- name: Register GitLab Runner
+- name: Check if runner is already registered
+  ansible.builtin.command: grep -q '^\[\[runners\]\]' /etc/gitlab-runner/config.toml
+  register: gitlab_runner_registered_check
+  changed_when: false
+  failed_when: false
+  become: true
+  when:
+    - configure_gitlab_runner | bool
+    - gitlab_runner_config_stat.stat.exists | default(false)
+
+- name: Resolve GitLab Runner token mode
+  ansible.builtin.set_fact:
+    gitlab_runner_use_auth_token: "{{ gitlab_runner_registration_token.startswith('glrt-') }}"
+  when:
+    - configure_gitlab_runner | bool
+    - gitlab_runner_registration_token | length > 0
+
+- name: Register GitLab Runner with authentication token (docker executor)
+  ansible.builtin.command: >-
+    gitlab-runner register
+    --non-interactive
+    --url "{{ gitlab_runner_url }}"
+    --token "{{ gitlab_runner_registration_token }}"
+    --executor "{{ gitlab_runner_executor }}"
+    --description "{{ gitlab_runner_description }}"
+    --docker-image "{{ gitlab_runner_docker_image }}"
+  become: true
+  when:
+    - configure_gitlab_runner | bool
+    - not ansible_check_mode
+    - gitlab_runner_url | length > 0
+    - gitlab_runner_registration_token | length > 0
+    - gitlab_runner_use_auth_token | bool
+    - gitlab_runner_executor == 'docker'
+    - not (gitlab_runner_registered_check.rc | default(1) == 0)
+
+- name: Register GitLab Runner with authentication token (non-docker executor)
+  ansible.builtin.command: >-
+    gitlab-runner register
+    --non-interactive
+    --url "{{ gitlab_runner_url }}"
+    --token "{{ gitlab_runner_registration_token }}"
+    --executor "{{ gitlab_runner_executor }}"
+    --description "{{ gitlab_runner_description }}"
+  become: true
+  when:
+    - configure_gitlab_runner | bool
+    - not ansible_check_mode
+    - gitlab_runner_url | length > 0
+    - gitlab_runner_registration_token | length > 0
+    - gitlab_runner_use_auth_token | bool
+    - gitlab_runner_executor != 'docker'
+    - not (gitlab_runner_registered_check.rc | default(1) == 0)
+
+- name: Register GitLab Runner with legacy registration token
   ansible.builtin.command: >-
     gitlab-runner register
     --non-interactive
@@ -73,4 +128,5 @@
     - not ansible_check_mode
     - gitlab_runner_url | length > 0
     - gitlab_runner_registration_token | length > 0
-    - not (gitlab_runner_config_stat.stat.exists | default(false))
+    - not (gitlab_runner_use_auth_token | bool)
+    - not (gitlab_runner_registered_check.rc | default(1) == 0)

@@ -26,11 +26,9 @@ k3s_install_extra_args: ""
 ensure_local_registry: true
 
 # Optional GitLab Runner setup
-configure_gitlab_runner: false
-gitlab_runner_url: ""
-gitlab_runner_registration_token: ""
-gitlab_runner_executor: shell
+configure_gitlab_runner: true
+gitlab_runner_url: "https://gitlab.com"
+gitlab_runner_registration_token: "glrt-qP9M-2oRvA8h-z6vH4rDVm86MQpwOjFhajEyMgp0OjMKdTo2cHFmYRg.01.1j0mmcyol"
+gitlab_runner_executor: docker
+gitlab_runner_docker_image: alpine:latest
 gitlab_runner_description: "{{ inventory_hostname }}"
-gitlab_runner_tags: ""
-gitlab_runner_run_untagged: true
-gitlab_runner_locked: false
