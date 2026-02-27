@@ -1,0 +1,12 @@
+---
+- name: Build image
+  ansible.builtin.command: "docker build -t {{ image }} {{ app_dir }}"
+  args:
+    chdir: "{{ project_root }}"
+  when: build_image | bool
+
+- name: Push image
+  ansible.builtin.command: "docker push {{ image }}"
+  args:
+    chdir: "{{ project_root }}"
+  when: build_image | bool

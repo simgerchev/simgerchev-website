@@ -133,14 +133,14 @@ ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
 To add a new app:
 
 1. Create app code under app/<app-name> with a Dockerfile.
-2. Copy ops/apps/example-app.yml to ops/apps/<app-name>.yml.
+2. Copy ops/ansible/apps/example-app.yml to ops/ansible/apps/<app-name>.yml.
 3. Update app/namespace, ports, ingress, env, and resources in that file.
 
 ## Reusing this ops folder in another repository
 
 1. Copy `ops/` into the new repository.
 2. Ensure application code lives in `app/<app-name>/` with a Dockerfile.
-3. Copy `ops/apps/example-app.yml` to `ops/apps/<app-name>.yml` and set values.
+3. Copy `ops/ansible/apps/example-app.yml` to `ops/ansible/apps/<app-name>.yml` and set values.
 4. Update `ops/ansible/inventory.ini` for your target host(s).
 5. Deploy with:
 

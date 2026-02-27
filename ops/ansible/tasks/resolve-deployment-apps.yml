@@ -1,0 +1,28 @@
+---
+- name: Resolve deployment app list from csv
+  ansible.builtin.set_fact:
+    deployment_app_names: >-
+      {{
+        app_names_csv.split(',')
+        | map('trim')
+        | reject('equalto', '')
+        | list
+      }}
+  when: app_names_csv | length > 0
+
+- name: Resolve deployment app list from app_names
+  ansible.builtin.set_fact:
+    deployment_app_names: "{{ app_names }}"
+  when:
+    - app_names is defined
+    - app_names | length > 0
+
+- name: Resolve deployment app list from app_name
+  ansible.builtin.set_fact:
+    deployment_app_names: ["{{ app_name }}"]
+  when: deployment_app_names is not defined
+
+- name: Validate deployment app list
+  ansible.builtin.fail:
+    msg: "No apps resolved for deployment. Set app_name, app_names, or app_names_csv."
+  when: deployment_app_names | length == 0

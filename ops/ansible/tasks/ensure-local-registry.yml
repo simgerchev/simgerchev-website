@@ -1,0 +1,59 @@
+---
+- name: Resolve local registry automation flags
+  ansible.builtin.set_fact:
+    registry_host: "{{ (registry.split(':') | first) | lower }}"
+    registry_has_port: "{{ ':' in registry }}"
+
+- name: Resolve local registry host/port checks
+  ansible.builtin.set_fact:
+    local_registry_is_hosted_here: "{{ registry_host in ['localhost', '127.0.0.1'] }}"
+    local_registry_port: "{{ (registry.split(':') | last) | int if registry_has_port else 5000 }}"
+
+- name: Resolve local registry automation flags
+  ansible.builtin.set_fact:
+    local_registry_automanage: >-
+      {{
+        (ensure_local_registry | bool)
+        and (build_image | bool)
+        and (registry_has_port | bool)
+        and (local_registry_is_hosted_here | bool)
+      }}
+
+- name: Check if local registry container exists
+  ansible.builtin.command: docker container inspect registry
+  register: local_registry_container_inspect
+  changed_when: false
+  failed_when: false
+  when:
+    - local_registry_automanage | bool
+    - not ansible_check_mode
+
+- name: Create local registry container when missing
+  ansible.builtin.command: >-
+    docker run -d
+    -p {{ local_registry_port }}:5000
+    --restart=always
+    --name registry
+    -v /opt/registry:/var/lib/registry
+    registry:2
+  when:
+    - local_registry_automanage | bool
+    - not ansible_check_mode
+    - local_registry_container_inspect.rc != 0
+
+- name: Check local registry running state
+  ansible.builtin.command: docker inspect -f {{"{{.State.Running}}"}} registry
+  register: local_registry_running_state
+  changed_when: false
+  when:
+    - local_registry_automanage | bool
+    - not ansible_check_mode
+    - local_registry_container_inspect.rc == 0
+
+- name: Start local registry container when stopped
+  ansible.builtin.command: docker start registry
+  when:
+    - local_registry_automanage | bool
+    - not ansible_check_mode
+    - local_registry_container_inspect.rc == 0
+    - local_registry_running_state.stdout | trim != 'true'

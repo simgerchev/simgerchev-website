@@ -1,0 +1,24 @@
+---
+- name: Resolve tag when building
+  ansible.builtin.set_fact:
+    resolved_tag: "{{ default_build_tag }}"
+  when: (build_image | bool) and (tag | length == 0)
+
+- name: Fail when tag is required
+  ansible.builtin.fail:
+    msg: "build_image=false requires tag to be set"
+  when: not (build_image | bool) and (tag | length == 0)
+
+- name: Use provided tag
+  ansible.builtin.set_fact:
+    resolved_tag: "{{ tag }}"
+  when: tag | length > 0
+
+- name: Compose image reference
+  ansible.builtin.set_fact:
+    image_repository: "{{ registry }}/{{ app.id | default(deploy_app_name) }}"
+    image_tag: "{{ resolved_tag }}"
+
+- name: Compose full image
+  ansible.builtin.set_fact:
+    image: "{{ image_repository }}:{{ image_tag }}"

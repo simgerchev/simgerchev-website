@@ -5,8 +5,8 @@ This folder is a reusable deployment template for containerized applications on 
 ## What is reusable
 
 - `ops/ansible/deploy-k3s.yml` deploy playbook
-- `ops/templates/*.yaml.j2` Kubernetes manifest templates
-- `ops/apps/*.yml` per-application configuration files
+- `ops/ansible/templates/*.yaml.j2` Kubernetes manifest templates
+- `ops/ansible/apps/*.yml` per-application configuration files
 
 ## Requirements
 
@@ -60,7 +60,7 @@ ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
 
 1. Copy this `ops/` folder into your target repository.
 2. Make sure your app source is at `app/<app-name>/` with a `Dockerfile`.
-3. Copy `ops/apps/example-app.yml` to `ops/apps/<app-name>.yml` and update values.
+3. Copy `ops/ansible/apps/example-app.yml` to `ops/ansible/apps/<app-name>.yml` and update values.
 4. Update `ops/ansible/inventory.ini` for your deployment host.
 5. Run:
    ```bash
@@ -76,7 +76,7 @@ ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
 ## Add a new app
 
 1. Add application source in `app/<app-name>/` with a `Dockerfile`.
-2. Copy `ops/apps/example-app.yml` to `ops/apps/<app-name>.yml`.
+2. Copy `ops/ansible/apps/example-app.yml` to `ops/ansible/apps/<app-name>.yml`.
 3. Update app settings (`namespace`, ports, ingress, env, resources).
 4. Deploy with:
 
@@ -92,7 +92,7 @@ ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml \
   --extra-vars '{"app_names":["frontend","backend","db"]}'
 ```
 
-Sample stack config files are included at `ops/apps/frontend.yml`, `ops/apps/backend.yml`, and `ops/apps/db.yml`.
+Sample stack config files are included at `ops/ansible/apps/frontend.yml`, `ops/ansible/apps/backend.yml`, and `ops/ansible/apps/db.yml`.
 They act as dummy examples until you include them in your deployment app list.
 Create matching source directories (`app/frontend/`, `app/backend/`, `app/db/`) before deploying that stack.
 

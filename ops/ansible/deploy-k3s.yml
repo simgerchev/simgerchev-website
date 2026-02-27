@@ -3,42 +3,19 @@
   hosts: k3s
   gather_facts: false
   vars:
-    app_name: simgerchev-website
-    app_names: []
-    app_names_csv: ""
-    build_image: true
-    tag: ""
-    default_build_tag: "latest"
-    registry: "localhost:5000"
     project_root: "{{ playbook_dir }}/../.."
   tasks:
-    - name: Resolve deployment app list from csv
-      ansible.builtin.set_fact:
-        deployment_app_names: >-
-          {{
-            app_names_csv.split(',')
-            | map('trim')
-            | reject('equalto', '')
-            | list
-          }}
-      when: app_names_csv | length > 0
+    - name: Resolve deployment inputs
+      ansible.builtin.include_tasks: tasks/resolve-deployment-apps.yml
 
-    - name: Resolve deployment app list from app_names
-      ansible.builtin.set_fact:
-        deployment_app_names: "{{ app_names }}"
-      when:
-        - app_names is defined
-        - app_names | length > 0
+    - name: Ensure deployment dependencies are installed
+      ansible.builtin.include_tasks: tasks/dependencies.yml
 
-    - name: Resolve deployment app list from app_name
-      ansible.builtin.set_fact:
-        deployment_app_names: ["{{ app_name }}"]
-      when: deployment_app_names is not defined
+    - name: Configure GitLab Runner when requested
+      ansible.builtin.include_tasks: tasks/gitlab-runner.yml
 
-    - name: Validate deployment app list
-      ansible.builtin.fail:
-        msg: "No apps resolved for deployment. Set app_name, app_names, or app_names_csv."
-      when: deployment_app_names | length == 0
+    - name: Ensure local registry is available when needed
+      ansible.builtin.include_tasks: tasks/ensure-local-registry.yml
 
     - name: Deploy apps
       ansible.builtin.include_tasks: tasks/deploy-single-app.yml
