@@ -1,6 +1,6 @@
 ---
 - name: Deploy app(s) to k3s
-  hosts: k3s
+  hosts: "{{ target_group | default('k3s') }}"
   gather_facts: false
   vars:
     project_root: "{{ playbook_dir }}/../.."
@@ -18,7 +18,7 @@
       ansible.builtin.include_tasks: tasks/ensure-local-registry.yml
 
     - name: Deploy apps
-      ansible.builtin.include_tasks: tasks/deploy-single-app.yml
+      ansible.builtin.include_tasks: tasks/deploy-app.yml
       loop: "{{ deployment_app_names }}"
       loop_control:
         loop_var: deploy_app_name

@@ -1,0 +1,36 @@
+---
+# Default single-app deploy target (used when app_names/app_names_csv are empty)
+app_name: simgerchev-website
+
+# Optional multi-app deployment inputs
+app_names: []
+app_names_csv: ""
+
+# Image build/deploy settings
+build_image: true
+tag: ""
+default_build_tag: "latest"
+registry: "localhost:5000"
+
+# Host bootstrap controls (Debian/Ubuntu)
+install_dependencies: true
+install_k3s: true
+ensure_k3s_running: true
+docker_apt_gpg_url: "https://download.docker.com/linux/debian/gpg"
+
+# k3s install options (passed to the official install script)
+k3s_install_channel: stable
+k3s_install_extra_args: ""
+
+# Local container registry automation
+ensure_local_registry: true
+
+# Optional GitLab Runner setup
+configure_gitlab_runner: false
+gitlab_runner_url: ""
+gitlab_runner_registration_token: ""
+gitlab_runner_executor: shell
+gitlab_runner_description: "{{ inventory_hostname }}"
+gitlab_runner_tags: ""
+gitlab_runner_run_untagged: true
+gitlab_runner_locked: false

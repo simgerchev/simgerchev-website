@@ -1,20 +1,3 @@
 ---
-app_name: simgerchev-website
-app_names: []
-app_names_csv: ""
-build_image: true
-tag: ""
-default_build_tag: "latest"
-registry: "localhost:5000"
-
-install_dependencies: true
-ensure_local_registry: true
-
-configure_gitlab_runner: false
-gitlab_runner_url: ""
-gitlab_runner_registration_token: ""
-gitlab_runner_executor: shell
-gitlab_runner_description: "{{ inventory_hostname }}"
-gitlab_runner_tags: ""
-gitlab_runner_run_untagged: true
-gitlab_runner_locked: false
+# Optional overrides specific to hosts in the `k3s` inventory group.
+# Common defaults are defined in `group_vars/all.yml`.

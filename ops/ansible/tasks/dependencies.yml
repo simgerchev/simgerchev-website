@@ -12,67 +12,17 @@
     - install_dependencies | bool
     - ansible_os_family != 'Debian'
 
-- name: Refresh apt package index
-  ansible.builtin.apt:
-    update_cache: true
-    cache_valid_time: 3600
-  become: true
+- name: Install and configure Docker dependencies
+  ansible.builtin.include_tasks: dependencies/docker.yml
   when: install_dependencies | bool
 
-- name: Install deployment dependencies
-  ansible.builtin.apt:
-    name:
-      - docker.io
-      - curl
-    state: present
-  become: true
+- name: Install and configure k3s dependencies
+  ansible.builtin.include_tasks: dependencies/k3s.yml
   when: install_dependencies | bool
 
-- name: Ensure Docker service is enabled and running
-  ansible.builtin.service:
-    name: docker
-    state: started
-    enabled: true
-  become: true
-  when:
-    - install_dependencies | bool
-    - build_image | bool
-    - not ansible_check_mode
-
-- name: Check kubectl availability
-  ansible.builtin.command: which kubectl
-  register: kubectl_check
-  changed_when: false
-  failed_when: false
+- name: Resolve kubectl command for deployment
+  ansible.builtin.include_tasks: dependencies/kubectl.yml
   when: install_dependencies | bool
-
-- name: Check k3s availability
-  ansible.builtin.command: which k3s
-  register: k3s_check
-  changed_when: false
-  failed_when: false
-  when: install_dependencies | bool
-
-- name: Resolve kubectl command
-  ansible.builtin.set_fact:
-    kubectl_cmd: >-
-      {{
-        'kubectl'
-        if kubectl_check.rc == 0
-        else (
-          'k3s kubectl'
-          if k3s_check.rc == 0
-          else ''
-        )
-      }}
-  when: install_dependencies | bool
-
-- name: Fail when kubectl command is unavailable
-  ansible.builtin.fail:
-    msg: "kubectl is not available and k3s is not installed. Install kubectl or k3s on the target host."
-  when:
-    - install_dependencies | bool
-    - kubectl_cmd | default('') | length == 0
 
 - name: Set default kubectl command when dependency bootstrap is disabled
   ansible.builtin.set_fact:

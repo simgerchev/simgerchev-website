@@ -1,0 +1,32 @@
+---
+- name: Check k3s availability
+  ansible.builtin.command: which k3s
+  register: k3s_check
+  changed_when: false
+  failed_when: false
+
+- name: Install k3s when missing
+  ansible.builtin.command: >-
+    sh -c "curl -sfL https://get.k3s.io | INSTALL_K3S_CHANNEL={{ k3s_install_channel }} sh -s - {{ k3s_install_extra_args }}"
+  become: true
+  when:
+    - install_k3s | bool
+    - not ansible_check_mode
+    - k3s_check.rc != 0
+
+- name: Check k3s availability after installation
+  ansible.builtin.command: which k3s
+  register: k3s_check_after
+  changed_when: false
+  failed_when: false
+
+- name: Ensure k3s service is enabled and running
+  ansible.builtin.service:
+    name: k3s
+    state: started
+    enabled: true
+  become: true
+  when:
+    - ensure_k3s_running | bool
+    - not ansible_check_mode
+    - (k3s_check_after.rc | default(k3s_check.rc)) == 0

@@ -1,0 +1,24 @@
+---
+- name: Check kubectl availability
+  ansible.builtin.command: which kubectl
+  register: kubectl_check
+  changed_when: false
+  failed_when: false
+
+- name: Resolve kubectl command
+  ansible.builtin.set_fact:
+    kubectl_cmd: >-
+      {{
+        'kubectl'
+        if kubectl_check.rc == 0
+        else (
+          'k3s kubectl'
+          if (k3s_check_after.rc | default(k3s_check.rc)) == 0
+          else ''
+        )
+      }}
+
+- name: Fail when kubectl command is unavailable
+  ansible.builtin.fail:
+    msg: "kubectl is not available and k3s is not installed/running. Enable install_k3s or install/repair k3s on the target host."
+  when: kubectl_cmd | default('') | length == 0
