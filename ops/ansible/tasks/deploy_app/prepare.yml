@@ -9,6 +9,8 @@
   ansible.builtin.stat:
     path: "{{ app_vars_path }}"
   register: app_vars_stat
+  delegate_to: localhost
+  become: false
 
 - name: Fail when app vars file missing
   ansible.builtin.fail:

@@ -1,12 +1,29 @@
 ---
+- name: Create remote build context directory
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: "-build-{{ deploy_app_name }}"
+  register: remote_build_context
+  when: build_image | bool
+
+- name: Copy app sources to remote build context
+  ansible.builtin.copy:
+    src: "{{ project_root }}/{{ app_dir }}/"
+    dest: "{{ remote_build_context.path }}/"
+  when: build_image | bool
+
 - name: Build image
-  ansible.builtin.command: "docker build -t {{ image }} {{ app_dir }}"
-  args:
-    chdir: "{{ project_root }}"
+  ansible.builtin.command: "docker build -t {{ image }} {{ remote_build_context.path }}"
+  become: true
   when: build_image | bool
 
 - name: Push image
   ansible.builtin.command: "docker push {{ image }}"
-  args:
-    chdir: "{{ project_root }}"
+  become: true
+  when: build_image | bool
+
+- name: Remove remote build context directory
+  ansible.builtin.file:
+    path: "{{ remote_build_context.path }}"
+    state: absent
   when: build_image | bool

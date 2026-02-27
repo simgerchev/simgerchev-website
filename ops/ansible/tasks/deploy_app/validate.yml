@@ -3,6 +3,8 @@
   ansible.builtin.stat:
     path: "{{ project_root }}/{{ app_dir }}"
   register: app_dir_stat
+  delegate_to: localhost
+  become: false
 
 - name: Fail when app directory missing
   ansible.builtin.fail:

@@ -12,8 +12,6 @@
 
 - name: Apply namespace
   ansible.builtin.command: "{{ kubectl_cmd | default('kubectl') }} apply -f {{ render_dir.path }}/namespace.yaml"
-  args:
-    chdir: "{{ project_root }}"
   become: true
 
 - name: Render deployment template
@@ -34,12 +32,8 @@
 
 - name: Apply Kubernetes manifests
   ansible.builtin.command: "{{ kubectl_cmd | default('kubectl') }} apply -f {{ render_dir.path }}/"
-  args:
-    chdir: "{{ project_root }}"
   become: true
 
 - name: Wait for rollout
   ansible.builtin.command: "{{ kubectl_cmd | default('kubectl') }} -n {{ app.namespace }} rollout status deployment/{{ app.name }}"
-  args:
-    chdir: "{{ project_root }}"
   become: true
