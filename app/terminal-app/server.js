@@ -7,16 +7,17 @@ const pty = require("node-pty");
 
 const app = express();
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server, path: "/ws" });
+const wss = new WebSocket.Server({ server, path: "/terminal/ws" });
 
 const publicDir = path.join(__dirname, "public");
-app.use(express.static(publicDir));
+app.use('/terminal', express.static(publicDir));
 
 const homeDir = process.env.HOME || "/home/appuser";
 const shellCandidates = ["/bin/bash", "/usr/bin/bash", "/bin/sh"];
 const shellPath = shellCandidates.find((candidate) => fs.existsSync(candidate)) || "/bin/sh";
 
 wss.on("connection", (ws) => {
+  console.log("WebSocket client connected");
   const ptyProcess = pty.spawn(shellPath, ["--login"], {
     name: "xterm-256color",
     cols: 80,

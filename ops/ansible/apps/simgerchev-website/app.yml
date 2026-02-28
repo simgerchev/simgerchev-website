@@ -27,5 +27,5 @@ ingress:
   name: frontend
   className: traefik
   host: ""
-  path: /
+  path: /main/
   pathType: Prefix

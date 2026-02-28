@@ -30,6 +30,21 @@
     dest: "{{ render_dir.path }}/ingress.yaml"
   when: ingress is defined and ingress.enabled
 
+# Note: In a production scenario, you might want to handle the case where ingress is not enabled by either skipping the apply step or applying a default manifest that ensures no ingress is created.
+- name: Ensure /home/ubuntuu/deployments directory exists
+  ansible.builtin.file:
+    path: /home/ubuntuu/deployments
+    state: directory
+    mode: '0755'
+
+# Save rendered ingress manifest for inspection
+- name: Save rendered ingress manifest for inspection
+  ansible.builtin.copy:
+    src: "{{ render_dir.path }}/ingress.yaml"
+    dest: "/home/ubuntuu/deployments/{{ app.name }}-ingress.yaml"
+    remote_src: yes
+  when: ingress is defined and ingress.enabled
+
 - name: Apply Kubernetes manifests
   ansible.builtin.command: "{{ kubectl_cmd | default('kubectl') }} apply -f {{ render_dir.path }}/"
   become: true

@@ -17,7 +17,8 @@ const fitAddon = new FitAddon.FitAddon();
 term.loadAddon(fitAddon);
 term.open(terminalEl);
 
-const socketUrl = `${location.protocol === "https:" ? "wss" : "ws"}://${location.host}/ws`;
+const basePath = window.location.pathname.startsWith('/terminal') ? '/terminal' : '';
+const socketUrl = `${location.protocol === "https:" ? "wss" : "ws"}://${location.host}${basePath}/ws`;
 const socket = new WebSocket(socketUrl);
 
 const updateStatus = (text, isLive) => {
