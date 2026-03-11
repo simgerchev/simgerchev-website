@@ -1,7 +1,5 @@
 stages:
   - verify
-  - gate
-  - deploy
 
 workflow:
   rules:
@@ -9,12 +7,6 @@ workflow:
     - if: '$CI_PIPELINE_SOURCE == "push"'
     - if: '$CI_PIPELINE_SOURCE == "web"'
     - if: '$CI_PIPELINE_SOURCE == "pipeline"'
-
-variables:
-  APP_NAME: "simgerchev-website"
-  REGISTRY: "localhost:5000"
-  TAG: "$(date +%s)"
-  TARGET_GROUP: "k3s"
 
 verify_frontend:
   stage: verify
@@ -27,72 +19,3 @@ verify_frontend:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_COMMIT_BRANCH'
-
-verify_ansible_syntax:
-  stage: verify
-  image: python:3.12-alpine
-  before_script:
-    - python -m pip install --no-cache-dir --root-user-action=ignore ansible-core
-  script:
-    - ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml --syntax-check
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-    - if: '$CI_COMMIT_BRANCH'
-
-approve_production_deploy:
-  stage: gate
-  script:
-    - echo "Deployment approved manually"
-  when: manual
-  allow_failure: false
-  rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-
-.ansible_deploy_manual:
-  stage: deploy
-  image: python:3.12-alpine
-  before_script:
-    - apk add --no-cache openssh-client
-    - python -m pip install --no-cache-dir --root-user-action=ignore ansible-core
-    - mkdir -p "$HOME/.ssh"
-    - chmod 700 "$HOME/.ssh"
-    - |
-      if [ -n "$ANSIBLE_SSH_PRIVATE_KEY" ]; then
-        printf '%s\n' "$ANSIBLE_SSH_PRIVATE_KEY" > "$HOME/.ssh/id_ed25519"
-        chmod 600 "$HOME/.ssh/id_ed25519"
-      elif [ -n "$SSH_PRIVATE_KEY" ]; then
-        printf '%s\n' "$SSH_PRIVATE_KEY" > "$HOME/.ssh/id_ed25519"
-        chmod 600 "$HOME/.ssh/id_ed25519"
-      fi
-    - |
-      if [ -n "$ANSIBLE_BECOME_PASS" ]; then
-        export ANSIBLE_BECOME_PASS
-      elif [ -n "$ANSIBLE_BECOME_PASSWORD" ]; then
-        export ANSIBLE_BECOME_PASS="$ANSIBLE_BECOME_PASSWORD"
-      fi
-  script:
-    - |
-      if [ -z "$TARGET_GROUP" ]; then
-        TARGET_GROUP="k3s"
-      fi
-      EXTRA_VARS="app_name=${APP_NAME} registry=${REGISTRY} target_group=${TARGET_GROUP} ${DEPLOY_EXTRA_VARS}"
-      ansible-playbook -i ops/ansible/inventory.ini ops/ansible/deploy-k3s.yml --extra-vars "$EXTRA_VARS"
-  needs:
-    - job: verify_ansible_syntax
-    - job: approve_production_deploy
-  when: manual
-  allow_failure: false
-  environment:
-    name: production
-  rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-
-deploy_k3s_manual:
-  extends: .ansible_deploy_manual
-  variables:
-    DEPLOY_EXTRA_VARS: "build_image=false tag=${TAG}"
-
-deploy_k3s_full_update_manual:
-  extends: .ansible_deploy_manual
-  variables:
-    DEPLOY_EXTRA_VARS: "build_image=true tag=${TAG}"

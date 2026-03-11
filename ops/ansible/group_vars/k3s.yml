@@ -1,3 +1,0 @@
----
-# Optional overrides specific to hosts in the `k3s` inventory group.
-# Common defaults are defined in `group_vars/all.yml`.
