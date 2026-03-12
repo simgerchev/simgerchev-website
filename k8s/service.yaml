@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: simgerchev-website
+  namespace: __NAMESPACE__
+  labels:
+    app: simgerchev-website
+spec:
+  type: ClusterIP
+  selector:
+    app: simgerchev-website
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80

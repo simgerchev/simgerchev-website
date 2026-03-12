@@ -1,21 +1,74 @@
 stages:
-  - verify
+  - test
+  - build
+  - deploy
 
-workflow:
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-    - if: '$CI_PIPELINE_SOURCE == "push"'
-    - if: '$CI_PIPELINE_SOURCE == "web"'
-    - if: '$CI_PIPELINE_SOURCE == "pipeline"'
+default:
+  tags:
+    - docker
+    - linux
 
-verify_frontend:
-  stage: verify
+variables:
+  DOCKER_TLS_CERTDIR: "/certs"
+  IMAGE_NAME: "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA"
+  K8S_NAMESPACE: "simgerchev-website"
+  K8S_INGRESS_HOST: ""
+  VITE_BASE_PATH: "/"
+
+test_frontend:
+  stage: test
   image: node:20
   script:
-    - cd app/simgerchev-website
     - npm ci
     - npm run lint
     - npm run build
+
+build_image:
+  stage: build
+  image: docker:27.1.1
+  services:
+    - name: docker:27.1.1-dind
+      command: ["--tls=true"]
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login "$CI_REGISTRY" -u "$CI_REGISTRY_USER" --password-stdin
+  script:
+    - docker build --build-arg VITE_BASE_PATH="$VITE_BASE_PATH" -t "$IMAGE_NAME" -t "$CI_REGISTRY_IMAGE:latest" .
+    - docker push "$IMAGE_NAME"
+    - docker push "$CI_REGISTRY_IMAGE:latest"
+
+deploy_k8s:
+  stage: deploy
+  tags:
+    - shell
+    - deploy
+  needs:
+    - job: build_image
+  before_script:
+    - command -v kubectl >/dev/null 2>&1 || { echo "kubectl is not installed on shell runner"; exit 1; }
+    - |
+      if [ -n "$KUBE_CONFIG" ]; then
+        mkdir -p "$HOME/.kube"
+        echo "$KUBE_CONFIG" | base64 -d > "$HOME/.kube/config"
+        chmod 600 "$HOME/.kube/config"
+        export KUBECONFIG="$HOME/.kube/config"
+      elif [ -r /etc/rancher/k3s/k3s.yaml ]; then
+        export KUBECONFIG="/etc/rancher/k3s/k3s.yaml"
+      else
+        echo "No readable kubeconfig found. Provide KUBE_CONFIG or grant read access to /etc/rancher/k3s/k3s.yaml."
+        exit 1
+      fi
+    - echo "Using KUBECONFIG=$KUBECONFIG"
+  script:
+    - kubectl --kubeconfig "$KUBECONFIG" create namespace "$K8S_NAMESPACE" --dry-run=client -o yaml | kubectl --kubeconfig "$KUBECONFIG" apply -f -
+    - kubectl --kubeconfig "$KUBECONFIG" -n "$K8S_NAMESPACE" create secret docker-registry gitlab-registry --docker-server="$CI_REGISTRY" --docker-username="$CI_REGISTRY_USER" --docker-password="$CI_REGISTRY_PASSWORD" --dry-run=client -o yaml | kubectl --kubeconfig "$KUBECONFIG" apply -f -
+    - sed -e "s|__NAMESPACE__|$K8S_NAMESPACE|g" -e "s|__IMAGE__|$IMAGE_NAME|g" k8s/deployment.yaml | kubectl --kubeconfig "$KUBECONFIG" apply -f -
+    - sed -e "s|__NAMESPACE__|$K8S_NAMESPACE|g" k8s/service.yaml | kubectl --kubeconfig "$KUBECONFIG" apply -f -
+    - |
+      if [ -n "$K8S_INGRESS_HOST" ]; then
+        sed -e "s|__NAMESPACE__|$K8S_NAMESPACE|g" -e "s|__INGRESS_HOST__|$K8S_INGRESS_HOST|g" k8s/ingress.yaml | kubectl --kubeconfig "$KUBECONFIG" apply -f -
+      else
+        echo "Skipping ingress apply because K8S_INGRESS_HOST is empty."
+      fi
+    - kubectl --kubeconfig "$KUBECONFIG" -n "$K8S_NAMESPACE" rollout status deploy/simgerchev-website --timeout=180s
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-    - if: '$CI_COMMIT_BRANCH'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simgerchev-website
+  namespace: __NAMESPACE__
+  labels:
+    app: simgerchev-website
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simgerchev-website
+  template:
+    metadata:
+      labels:
+        app: simgerchev-website
+    spec:
+      imagePullSecrets:
+        - name: gitlab-registry
+      containers:
+        - name: simgerchev-website
+          image: __IMAGE__
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 20
