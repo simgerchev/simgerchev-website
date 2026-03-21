@@ -1,5 +1,11 @@
 const projects = [
   {
+    title: "****linux sandbox****featured",
+    desc: "browser-based linux terminal sim. navigate a fake filesystem, solve ctf-style challenges, escalate to root. each session gets a randomly seeded world.",
+    tech: ["python", "fastpi", "docker", "git"],
+    link: "https://sandbox.krali4a.com/",
+  },
+  {
     title: "deserted",
     desc: "desert exploration with a 6-legged lizard cat. metroidvania-inspired.",
     tech: ["c#", "unity", "git"],
