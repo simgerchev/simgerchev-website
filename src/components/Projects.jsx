@@ -1,60 +1,41 @@
-import projectSecond from '../assets/project-pictures/project-second.jpg';
-import projectThird from '../assets/project-pictures/project-third.png';
-import projectSeventh from '../assets/project-pictures/project-seventh.png';
-import { Link } from 'react-router-dom';
-
 const projects = [
   {
-    img: projectSecond,
-    title: "Deserted",
-    desc: "Explore an unknown desert world with your 6-legged lizzard cat while mastering obstacles, traps and many other dangers. Find new abilities, fight enemies and uncover hidden treasures in this Metroidvanice-inspired.",
-    tech: ["C#", "Unity","Git"],
+    title: "deserted",
+    desc: "explore an unknown desert world with your 6-legged lizard cat while mastering obstacles, traps and many other dangers. find new abilities, fight enemies and uncover hidden treasures. metroidvania-inspired.",
+    tech: ["c#", "unity", "git"],
     link: "https://codelikeasir.itch.io/deserted",
-    showButton: true
   },
   {
-    img: projectThird,
-    title: "Yggdrasil",
-    desc: "Go on an adventure to save the sacred tree Yggdrasil! The frost giants have frozen Hvergelmir, the spring to all rivers. But Yggdrasil needs water to survive and thrive. You must restore Hvergelmir and the flow of water in the world.",
-    tech: ["C#", "Unity","Git"],
+    title: "yggdrasil",
+    desc: "go on an adventure to save the sacred tree yggdrasil. the frost giants have frozen hvergelmir, the spring to all rivers. restore the flow of water in the world.",
+    tech: ["c#", "unity", "git"],
     link: "https://luameyer.itch.io/yggdrasil",
-    showButton: true
   },
   {
-    img: projectSeventh,
-    title: "Gods Fallen",
-    desc: "There was an eternal conflict between the gods and the demons. Many gods fell in battle, other gods were captured. In the end, only one brave god remained. Facing a powerful foe, he was soon overwhelmed by the demon's power and fell from the sky into the void. Regaining his power, he must ascend to the heavens to rid it of the evil that plagues.",
-    tech: ["C#", "Unity","Git"],
+    title: "gods fallen",
+    desc: "an eternal conflict between gods and demons. one god remains, overwhelmed and cast into the void. regaining his power, he must ascend to the heavens to rid it of evil.",
+    tech: ["c#", "unity", "git"],
     link: "https://clinc8686.itch.io/gods-fallen",
-    showButton: true
   },
 ];
 
 export default function Projects() {
   return (
-    <section className="projects" id="projects">
-      <h2 style={{ width: "100%", textAlign: "center" }}>My Projects / More on Github</h2>
-      <div className="project-grid">
+    <div className="cmd-page">
+      <div className="cmd-page-body">
+        <p className="cmd-page-prompt">krali4a@website:~$ cat projects.txt</p>
+
         {projects.map((proj, idx) => (
-          <div className="project-card" key={idx}>
-            <img src={proj.img} alt={proj.title} className="project-img" />
-            <h3 className="project-title">{proj.title}</h3>
-            <p className="project-desc">{proj.desc}</p>
-            <div className="project-techstack">
-              {proj.tech.map((tech, i) => (
-                <span className="tech-badge" key={i}>{tech}</span>
-              ))}
-            </div>
-            {proj.showButton !== false && (
-              proj.link.startsWith('/') ? (
-                <Link className="btn" to={proj.link}>View Project</Link>
-              ) : (
-                <a className="btn" href={proj.link} target="_blank" rel="noopener noreferrer">View Project</a>
-              )
-            )}
+          <div className="cmd-section" key={idx}>
+            <span className="cmd-section-label">{proj.title}</span>
+            <p>{proj.desc}</p>
+            <p className="cmd-tech">{proj.tech.join('  ')}</p>
+            <a className="cmd-link" href={proj.link} target="_blank" rel="noopener noreferrer">
+              → {proj.link}
+            </a>
           </div>
         ))}
       </div>
-    </section>
+    </div>
   );
 }

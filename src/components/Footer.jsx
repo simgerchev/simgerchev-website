@@ -1,15 +1,11 @@
 export default function Footer() {
   return (
-    <footer>
-    <div className="container">
-        <div className="social">
-            <a href="https://www.linkedin.com/in/simeon-gerchev-2b70b122a/">LINKEDIN</a>
-            <a href="https://github.com/simgerchev">GITHUB</a>
-            <a href="https://gitlab.com/simgerchev">GITLAB</a>
-        </div>
-        <p>
-            Copyright © 2025 <strong>Simeon Gerchev</strong><br />
-        </p>
+    <footer className="cmd-footer">
+      <span>© 2025 krali4</span>
+      <div className="cmd-footer-links">
+        <a href="https://www.linkedin.com/in/simeon-gerchev-2b70b122a/" target="_blank" rel="noreferrer">linkedin</a>
+        <a href="https://github.com/simgerchev" target="_blank" rel="noreferrer">github</a>
+        <a href="https://gitlab.com/simgerchev" target="_blank" rel="noreferrer">gitlab</a>
       </div>
     </footer>
   );

@@ -122,121 +122,105 @@
 /* =========================
    Global Layout & Typography
    ========================= */
-html {
-  scroll-behavior: smooth;
-}
-
 html, body, #root {
   height: 100%;
-  min-height: 100vh;
+  margin: 0;
 }
 
 body {
-  background: #060610;
-  color: var(--text);
-  font-family: inherit;
-  margin: 0;
+  background: #0c0c0c;
+  color: #ccc;
+  font-family: 'Courier New', Courier, monospace;
   min-width: 320px;
-  min-height: 100vh;
-  overflow-x: hidden;
-  position: relative;
-}
-
-body::before,
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-
-body::before {
-  background: repeating-linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.03) 0,
-      rgba(255, 255, 255, 0.03) 1px,
-      transparent 1px,
-      transparent 3px
-    );
-  mix-blend-mode: screen;
-  opacity: 0.4;
-}
-
-body::after {
-  background: radial-gradient(1200px 800px at 15% 10%, rgba(74, 163, 255, 0.14), transparent 70%),
-    radial-gradient(900px 700px at 85% 20%, rgba(74, 163, 255, 0.1), transparent 70%),
-    radial-gradient(120% 120% at 50% 10%, rgba(0, 0, 0, 0) 0%, rgba(2, 2, 8, 0.55) 65%, rgba(2, 2, 8, 0.9) 100%);
-  opacity: 0.7;
+  overflow: hidden;
 }
 
 .app {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  width: 100vw;
-  position: relative;
-  z-index: 1;
+  height: 100vh;
+  overflow: hidden;
 }
 
-
-/* Footer stays at the bottom and stretches full width */
-footer {
-  flex-shrink: 0;
-  width: 100%;
-  background: var(--bg-header);
-  color: var(--text-secondary);
-  padding: 40px 20px;
-  text-align: center;
-}
-
-/* =========================
-   Links & Navigation
-   ========================= */
-a, .nav-link {
-  color: var(--accent);
-  text-decoration: none;
-}
-
-nav {
-  align-items: center;
+.main-content {
+  flex: 1;
+  min-height: 0;
   display: flex;
-  flex-wrap: wrap;
-}
-
-nav a, .nav-link {
-  color: var(--text-secondary);
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  font-weight: 400;
-  letter-spacing: 2px;
-  margin-left: 20px;
-  text-transform: uppercase;
-  text-shadow: 0 0 8px rgba(74, 163, 255, 0.18);
-}
-
-nav a.active, .nav-link.active,
-nav a:hover, .nav-link:hover {
-  border-bottom: 2px solid var(--accent);
-  color: var(--accent);
+  flex-direction: column;
 }
 
 /* =========================
    Header
    ========================= */
-header {
-  background: linear-gradient(180deg, rgba(20, 16, 36, 0.95) 0%, rgba(12, 10, 24, 0.9) 100%);
-  border-bottom: 1px solid rgba(74, 163, 255, 0.3);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-  padding: 20px 50px;
+.cmd-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 32px;
+  background: #0c0c0c;
+  border-bottom: 1px solid #333;
+  flex-shrink: 0;
+  font-family: 'Courier New', Courier, monospace;
+  gap: 12px;
 }
 
-header .container {
-  align-items: center;
+.cmd-header-title {
+  color: #fff;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cmd-nav {
   display: flex;
+  gap: 24px;
+  flex-shrink: 0;
+}
+
+.cmd-nav-link {
+  color: #888;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.1s;
+  white-space: nowrap;
+}
+
+.cmd-nav-link:hover {
+  color: #fff;
+}
+
+/* =========================
+   Footer
+   ========================= */
+.cmd-footer {
+  display: flex;
+  align-items: center;
+  padding: 10px 32px;
+  background: #0c0c0c;
+  border-top: 1px solid #333;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.85rem;
+  color: #555;
+  flex-shrink: 0;
+  gap: 20px;
   flex-wrap: wrap;
-  justify-content: space-between;
-  width: 100%;
+}
+
+.cmd-footer-links {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.cmd-footer a {
+  color: #555;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.cmd-footer a:hover {
+  color: #ccc;
 }
 
 .logo-img {
@@ -1256,5 +1240,225 @@ a:hover {
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
+  }
+}
+
+/* =========================
+   CMD Pages (skills, projects)
+   ========================= */
+.cmd-page {
+  flex: 1;
+  overflow-y: auto;
+  background: #0c0c0c;
+  padding: 2rem;
+  scrollbar-width: none;
+}
+
+.cmd-page::-webkit-scrollbar {
+  display: none;
+}
+
+.cmd-page-body {
+  max-width: 800px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.cmd-page-prompt {
+  color: #fff;
+  margin: 0 0 1.5rem 0;
+}
+
+.cmd-section {
+  margin-bottom: 1.5rem;
+}
+
+.cmd-section-label {
+  color: #fff;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.cmd-section p {
+  color: #aaa;
+  margin: 0 0 0.2rem 0;
+}
+
+.cmd-tech {
+  color: #666 !important;
+  font-size: 0.9rem;
+}
+
+.cmd-link {
+  color: #aaa;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 0.2rem;
+}
+
+.cmd-link:hover {
+  color: #fff;
+}
+
+/* =========================
+   Terminal
+   ========================= */
+
+.terminal-wrap {
+  flex: 1;
+  padding: 1.5rem 2rem 1.5rem 2rem;
+  cursor: text;
+  display: flex;
+  flex-direction: column;
+  background: #0c0c0c;
+  overflow: hidden;
+}
+
+.terminal-body {
+  flex: 1;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #ccc;
+  max-width: 800px;
+  width: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.terminal-body::-webkit-scrollbar {
+  display: none;
+}
+
+.tline {
+  display: block;
+  white-space: pre;
+}
+
+.tline--system {
+  color: #aaa;
+}
+
+.tline--command {
+  display: flex;
+  align-items: baseline;
+  color: #fff;
+}
+
+.tline--output {
+  color: #ccc;
+  padding-left: 0;
+}
+
+.tline--label {
+  color: #fff;
+}
+
+.tline--error {
+  color: #f66;
+}
+
+.tline--success {
+  color: #ccc;
+}
+
+.tline--link a {
+  color: #ccc;
+  text-decoration: none;
+}
+
+.tline--link a:hover {
+  text-decoration: underline;
+  color: #fff;
+}
+
+.tline--nf {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.tline--nf-art {
+  color: #fff;
+  flex-shrink: 0;
+  min-width: 18ch;
+}
+
+.tline--nf-info {
+  color: #888;
+}
+
+.tline--nf-hi {
+  color: #fff;
+}
+
+.tprompt {
+  color: #fff;
+  flex-shrink: 0;
+  white-space: pre;
+}
+
+.tinput {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  caret-color: #fff;
+  width: 60ch;
+  padding: 0;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .cmd-header {
+    padding: 8px 16px;
+  }
+
+  .cmd-header-title {
+    font-size: 0.8rem;
+  }
+
+  .cmd-nav {
+    gap: 14px;
+  }
+
+  .cmd-nav-link {
+    font-size: 0.8rem;
+  }
+
+  .cmd-footer {
+    padding: 8px 16px;
+    gap: 12px;
+  }
+
+  .cmd-footer-links {
+    gap: 14px;
+  }
+
+  .terminal-wrap {
+    padding: 1rem;
+  }
+
+  .terminal-body {
+    font-size: 0.85rem;
+  }
+
+  .tline--nf {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .tline--nf-art {
+    display: none;
+  }
+
+  .tinput {
+    width: 20ch;
+  }
+
+  .cmd-page {
+    padding: 1rem;
   }
 }

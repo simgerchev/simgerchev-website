@@ -1,17 +1,14 @@
-import WhiteLogo from '../assets/website-logo-second.png';
 import { Link } from 'react-router-dom';
 
 export default function Header() {
   return (
-    <header>
-      <div className="container">
-        <img src={WhiteLogo} alt="Logo" className="logo-img" />
-        <nav>
-          <Link to="/" className="nav-link">HOME</Link>
-          <Link to="/skills" className="nav-link">SKILLS</Link>
-          <Link to="/projects" className="nav-link">WORKSHOP⚙︎</Link>
-        </nav>
-      </div>
+    <header className="cmd-header">
+      <span className="cmd-header-title">krali4a@website:~#</span>
+      <nav className="cmd-nav">
+        <Link to="/" className="cmd-nav-link">home</Link>
+        <Link to="/skills" className="cmd-nav-link">skills</Link>
+        <Link to="/projects" className="cmd-nav-link">projects</Link>
+      </nav>
     </header>
   );
 }

@@ -1,58 +1,34 @@
 export default function Skills() {
   return (
-    <section className="skills-section" id="skills">
-      <h2 className="skills-title">Skills Overview</h2>
-      <div className="skills-groups">
-        <div className="skills-group">
-          <h3>Languages</h3>
-          <ul className="skills-tags">
-            <li>PHP</li>
-            <li>JavaScript</li>
-            <li>Python</li>
-            <li>C#</li>
-            <li>Go</li>
-            <li>MySQL</li>
-            <li>MariaDB</li>
-          </ul>
+    <div className="cmd-page">
+      <div className="cmd-page-body">
+        <p className="cmd-page-prompt">krali4a@website:~$ cat skills.txt</p>
+
+        <div className="cmd-section">
+          <span className="cmd-section-label">languages</span>
+          <p>php &nbsp; javascript &nbsp; python &nbsp; c# &nbsp; go &nbsp; mysql &nbsp; mariadb</p>
         </div>
-        <div className="skills-group">
-          <h3>Frameworks</h3>
-          <ul className="skills-tags">
-            <li>Symfony</li>
-            <li>Laravel</li>
-            <li>React</li>
-            <li>Django</li>
-            <li>Unity</li>
-            <li>Bootstrap</li>
-            <li>Wordpress</li>
-          </ul>
+
+        <div className="cmd-section">
+          <span className="cmd-section-label">frameworks</span>
+          <p>symfony &nbsp; laravel &nbsp; react &nbsp; django &nbsp; unity &nbsp; bootstrap &nbsp; wordpress</p>
         </div>
-        <div className="skills-group">
-          <h3>DevOps &amp; Tools</h3>
-          <ul className="skills-tags">
-            <li>Git (GitHub, GitLab)</li>
-            <li>Docker</li>
-            <li>Bash</li>
-            <li>Redis</li>
-            <li>RabbitMQ</li>
-            <li>Jenkins</li>
-          </ul>
+
+        <div className="cmd-section">
+          <span className="cmd-section-label">devops & tools</span>
+          <p>git (github, gitlab) &nbsp; docker &nbsp; bash &nbsp; redis &nbsp; rabbitmq &nbsp; jenkins &nbsp; k8s</p>
         </div>
-        <div className="skills-group">
-          <h3>Operating &amp; Systems</h3>
-          <ul className="skills-tags">
-            <li>Linux (Kali Linux, Debian)</li>
-            <li>MacOS</li>
-            <li>Windows</li>
-          </ul>
+
+        <div className="cmd-section">
+          <span className="cmd-section-label">operating systems</span>
+          <p>linux (kali, debian) &nbsp; macos &nbsp; windows</p>
+        </div>
+
+        <div className="cmd-section">
+          <span className="cmd-section-label">currently learning</span>
+          <p>react</p>
         </div>
       </div>
-      <div className="currently-learning">
-        <span role="img" aria-label="book">📖</span>
-        <span className="currently-learning-text">
-          Currently learning: <strong>React</strong>
-        </span>
-      </div>
-    </section>
+    </div>
   );
 }
