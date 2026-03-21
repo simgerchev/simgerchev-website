@@ -3,7 +3,7 @@ const featured = [
     title: 'krali4',
     desc: 'browser-based linux terminal sim. navigate a filesystem, solve ctf-style challenges. each session gets a randomly seeded world.',
     tech: ['python', 'fastapi', 'docker', 'git'],
-    link: 'https://sandbox.krali4a.com/',
+    link: 'https://game.krali4a.com/',
   },
 ]
 
