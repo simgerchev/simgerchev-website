@@ -11,7 +11,7 @@ default:
 variables:
   DOCKER_TLS_CERTDIR: "/certs"
   IMAGE_NAME: "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA"
-  K8S_NAMESPACE: "simgerchev-website"
+  K8S_NAMESPACE: "main-website"
   K8S_INGRESS_HOST: ""
   VITE_BASE_PATH: "/"
 
@@ -69,6 +69,6 @@ deploy_k8s:
       else
         echo "Skipping ingress apply because K8S_INGRESS_HOST is empty."
       fi
-    - kubectl --kubeconfig "$KUBECONFIG" -n "$K8S_NAMESPACE" rollout status deploy/simgerchev-website --timeout=180s
+    - kubectl --kubeconfig "$KUBECONFIG" -n "$K8S_NAMESPACE" rollout status deploy/main-website --timeout=180s
   rules:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'

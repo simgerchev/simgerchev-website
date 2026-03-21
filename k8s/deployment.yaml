@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: simgerchev-website
+  name: main-website
   namespace: __NAMESPACE__
   labels:
-    app: simgerchev-website
+    app: main-website
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: simgerchev-website
+      app: main-website
   template:
     metadata:
       labels:
-        app: simgerchev-website
+        app: main-website
     spec:
       imagePullSecrets:
         - name: gitlab-registry
       containers:
-        - name: simgerchev-website
+        - name: main-website
           image: __IMAGE__
           imagePullPolicy: Always
           ports:
