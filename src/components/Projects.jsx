@@ -1,7 +1,7 @@
 const featured = [
   {
-    title: 'linux sandbox',
-    desc: 'browser-based linux terminal sim. navigate a fake filesystem, solve ctf-style challenges, escalate to root. each session gets a randomly seeded world.',
+    title: 'krali4',
+    desc: 'browser-based linux terminal sim. navigate a filesystem, solve ctf-style challenges. each session gets a randomly seeded world.',
     tech: ['python', 'fastapi', 'docker', 'git'],
     link: 'https://sandbox.krali4a.com/',
   },

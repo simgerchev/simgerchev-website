@@ -7,7 +7,7 @@ export default function Header() {
       <nav className="cmd-nav">
         <Link to="/" className="cmd-nav-link">home</Link>
         <Link to="/skills" className="cmd-nav-link">skills</Link>
-        <Link to="/projects" className="cmd-nav-link">projects</Link>
+        <Link to="/projects" className="cmd-nav-link">workshop</Link>
       </nav>
     </header>
   );
