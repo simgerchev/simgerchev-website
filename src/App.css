@@ -133,6 +133,7 @@ body {
   font-family: 'Courier New', Courier, monospace;
   min-width: 320px;
   overflow: hidden;
+  overscroll-behavior: none;
 }
 
 .app {
@@ -1317,6 +1318,7 @@ a:hover {
 
 .terminal-body {
   flex: 1;
+  min-height: 0;
   font-family: 'Courier New', Courier, monospace;
   font-size: 1rem;
   line-height: 1.7;
@@ -1324,6 +1326,7 @@ a:hover {
   max-width: 800px;
   width: 100%;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 }
 

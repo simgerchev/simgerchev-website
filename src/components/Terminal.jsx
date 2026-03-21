@@ -249,8 +249,13 @@ export default function Terminal() {
     )
   }
 
+  function handleWrapClick(e) {
+    if (e.target === inputRef.current) return
+    inputRef.current?.focus({ preventScroll: true })
+  }
+
   return (
-    <div className="terminal-wrap" onClick={() => inputRef.current?.focus({ preventScroll: true })}>
+    <div className="terminal-wrap" onClick={handleWrapClick}>
       <div className="terminal-body">
         {lines.map(renderLine)}
         <div className="tline tline--command">
