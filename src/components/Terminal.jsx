@@ -175,11 +175,12 @@ export default function Terminal() {
   const [input, setInput] = useState('')
   const [history, setHistory] = useState([])
   const [historyIndex, setHistoryIndex] = useState(-1)
-  const bottomRef = useRef(null)
+  const wrapRef = useRef(null)
   const inputRef = useRef(null)
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'instant' })
+    const el = wrapRef.current
+    if (el) el.scrollTop = el.scrollHeight
   }, [lines])
 
   function handleSubmit(e) {
@@ -255,7 +256,7 @@ export default function Terminal() {
   }
 
   return (
-    <div className="terminal-wrap" onClick={handleWrapClick}>
+    <div className="terminal-wrap" ref={wrapRef} onClick={handleWrapClick}>
       <div className="terminal-body">
         {lines.map(renderLine)}
         <div className="tline tline--command">
@@ -275,7 +276,6 @@ export default function Terminal() {
             />
           </form>
         </div>
-        <div ref={bottomRef} />
       </div>
     </div>
   )
