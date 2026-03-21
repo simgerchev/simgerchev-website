@@ -1,42 +1,42 @@
+const sections = [
+  {
+    label: 'languages',
+    content: 'php  javascript  python  c#  go  mysql  mariadb',
+  },
+  {
+    label: 'frameworks',
+    content: 'symfony  laravel  react  django  unity  bootstrap  wordpress',
+  },
+  {
+    label: 'devops & tools',
+    content: 'git (github, gitlab)  docker  bash  redis  rabbitmq  jenkins  k8s',
+  },
+  {
+    label: 'operating systems',
+    content: 'linux (kali, debian)  macos  windows',
+  },
+  {
+    label: 'currently learning',
+    content: 'react',
+  },
+]
+
 export default function Skills() {
   return (
     <div className="cmd-page">
       <div className="cmd-page-body">
         <p className="cmd-page-prompt">krali4a@website:~$ cat skills.txt</p>
 
-        <div className="cmd-section">
-          <pre className="cmd-art">{`
-  ___________   .__.__  .__          
- /   _____/  | _|__|  | |  |   ______
- \_____  \|  |/ /  |  | |  |  /  ___/
- /        \    <|  |  |_|  |__\___ \ 
-/_______  /__|_ \__|____/____/____  >
-        \/     \/                 \/ 
-                              
-          `}</pre>
-          <span className="cmd-section-label">languages</span>
-          <p>php &nbsp; javascript &nbsp; python &nbsp; c# &nbsp; go &nbsp; mysql &nbsp; mariadb</p>
-        </div>
+        <pre className="cmd-art">{` __ _    _ _ _\n/ _\\ | _(_) | |___\n\\ \\| |/ / | | / __|\n_\\ \\   <| | | \\__ \\\n\\__/_|\\_\\_|_|_|___/`}</pre>
 
-        <div className="cmd-section">
-          <span className="cmd-section-label">frameworks</span>
-          <p>symfony &nbsp; laravel &nbsp; react &nbsp; django &nbsp; unity &nbsp; bootstrap &nbsp; wordpress</p>
-        </div>
-
-        <div className="cmd-section">
-          <span className="cmd-section-label">devops & tools</span>
-          <p>git (github, gitlab) &nbsp; docker &nbsp; bash &nbsp; redis &nbsp; rabbitmq &nbsp; jenkins &nbsp; k8s</p>
-        </div>
-
-        <div className="cmd-section">
-          <span className="cmd-section-label">operating systems</span>
-          <p>linux (kali, debian) &nbsp; macos &nbsp; windows</p>
-        </div>
-
-        <div className="cmd-section">
-          <span className="cmd-section-label">currently learning</span>
-          <p>react</p>
-        </div>
+        {sections.map((s, i) => (
+          <div className="cmd-section" key={i}>
+            <span className="cmd-section-label">{s.label}</span>
+            <div className="cmd-section-content">
+              <p>{s.content}</p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   )

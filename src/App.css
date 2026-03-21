@@ -216,42 +216,56 @@ a {
   white-space: pre;
 }
 
-.cmd-section {
-  margin-bottom: 1.5rem;
-}
-
 .cmd-art {
-  color: #888;
-  margin: 0 0 0.3rem 0;
+  color: #555;
+  margin: 0 0 1.5rem 0;
   font-family: 'Courier New', Courier, monospace;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   line-height: 1.4;
 }
 
-.cmd-section-label {
-  color: #fff;
-  display: block;
-  margin-bottom: 0.2rem;
+.cmd-section {
+  border: 1px solid #2a2a2a;
+  margin-bottom: 1rem;
 }
 
-.cmd-section p {
+.cmd-section-label {
+  display: block;
+  color: #fff;
+  background: #111;
+  border-bottom: 1px solid #2a2a2a;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.9rem;
+}
+
+.cmd-section-content {
+  padding: 0.6rem 0.8rem;
+}
+
+.cmd-section-content p {
   color: #aaa;
   margin: 0 0 0.2rem 0;
 }
 
 .cmd-tech {
-  color: #666 !important;
-  font-size: 0.9rem;
+  color: #555 !important;
+  font-size: 0.85rem;
 }
 
 .cmd-link {
-  color: #aaa;
+  color: #777;
   display: inline-block;
-  margin-top: 0.2rem;
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
 }
 
 .cmd-link:hover {
   color: #fff;
+}
+
+.cmd-badge {
+  color: #555;
+  font-size: 0.8rem;
 }
 
 /* =========================
