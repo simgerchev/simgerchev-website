@@ -220,6 +220,14 @@ a {
   margin-bottom: 1.5rem;
 }
 
+.cmd-art {
+  color: #888;
+  margin: 0 0 0.3rem 0;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
 .cmd-section-label {
   color: #fff;
   display: block;

@@ -5,6 +5,15 @@ export default function Skills() {
         <p className="cmd-page-prompt">krali4a@website:~$ cat skills.txt</p>
 
         <div className="cmd-section">
+          <pre className="cmd-art">{`
+  ___________   .__.__  .__          
+ /   _____/  | _|__|  | |  |   ______
+ \_____  \|  |/ /  |  | |  |  /  ___/
+ /        \    <|  |  |_|  |__\___ \ 
+/_______  /__|_ \__|____/____/____  >
+        \/     \/                 \/ 
+                              
+          `}</pre>
           <span className="cmd-section-label">languages</span>
           <p>php &nbsp; javascript &nbsp; python &nbsp; c# &nbsp; go &nbsp; mysql &nbsp; mariadb</p>
         </div>
@@ -30,5 +39,5 @@ export default function Skills() {
         </div>
       </div>
     </div>
-  );
+  )
 }
