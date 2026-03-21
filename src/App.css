@@ -268,6 +268,12 @@ a {
   font-size: 0.8rem;
 }
 
+.cmd-group-label {
+  color: #444;
+  margin: 0 0 0.6rem 0;
+  font-size: 0.85rem;
+}
+
 /* =========================
    Responsive
    ========================= */
