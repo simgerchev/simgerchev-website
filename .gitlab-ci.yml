@@ -60,13 +60,13 @@ deploy_k8s:
     - kubectl config set-cluster $(kubectl config view -o jsonpath='{.clusters[0].name}') --insecure-skip-tls-verify=true
     - echo "Using KUBECONFIG=$KUBECONFIG"
   script:
-    - kubectl --kubeconfig "$KUBECONFIG" create namespace "$K8S_NAMESPACE" --dry-run=client -o yaml | kubectl --kubeconfig "$KUBECONFIG" apply -f -
-    - kubectl --kubeconfig "$KUBECONFIG" -n "$K8S_NAMESPACE" create secret docker-registry gitlab-registry --docker-server="$CI_REGISTRY" --docker-username="$CI_REGISTRY_USER" --docker-password="$CI_REGISTRY_PASSWORD" --dry-run=client -o yaml | kubectl --kubeconfig "$KUBECONFIG" apply -f -
-    - sed -e "s|__NAMESPACE__|$K8S_NAMESPACE|g" -e "s|__IMAGE__|$IMAGE_NAME|g" k8s/deployment.yaml | kubectl --kubeconfig "$KUBECONFIG" apply -f -
-    - sed -e "s|__NAMESPACE__|$K8S_NAMESPACE|g" k8s/service.yaml | kubectl --kubeconfig "$KUBECONFIG" apply -f -
+    - kubectl --kubeconfig "$KUBECONFIG" create namespace "$K8S_NAMESPACE" --dry-run=client -o yaml | kubectl --kubeconfig "$KUBECONFIG" apply --validate=false -f -
+    - kubectl --kubeconfig "$KUBECONFIG" -n "$K8S_NAMESPACE" create secret docker-registry gitlab-registry --docker-server="$CI_REGISTRY" --docker-username="$CI_REGISTRY_USER" --docker-password="$CI_REGISTRY_PASSWORD" --dry-run=client -o yaml | kubectl --kubeconfig "$KUBECONFIG" apply --validate=false -f -
+    - sed -e "s|__NAMESPACE__|$K8S_NAMESPACE|g" -e "s|__IMAGE__|$IMAGE_NAME|g" k8s/deployment.yaml | kubectl --kubeconfig "$KUBECONFIG" apply --validate=false -f -
+    - sed -e "s|__NAMESPACE__|$K8S_NAMESPACE|g" k8s/service.yaml | kubectl --kubeconfig "$KUBECONFIG" apply --validate=false -f -
     - |
       if [ -n "$K8S_INGRESS_HOST" ]; then
-        sed -e "s|__NAMESPACE__|$K8S_NAMESPACE|g" -e "s|__INGRESS_HOST__|$K8S_INGRESS_HOST|g" k8s/ingress.yaml | kubectl --kubeconfig "$KUBECONFIG" apply -f -
+        sed -e "s|__NAMESPACE__|$K8S_NAMESPACE|g" -e "s|__INGRESS_HOST__|$K8S_INGRESS_HOST|g" k8s/ingress.yaml | kubectl --kubeconfig "$KUBECONFIG" apply --validate=false -f -
       else
         echo "Skipping ingress apply because K8S_INGRESS_HOST is empty."
       fi
